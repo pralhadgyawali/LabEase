@@ -1,0 +1,442 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Labease</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f4f5] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-[#101718]">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_6_543)">
+                    <path
+                      d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z"
+                      fill="currentColor"
+                    ></path>
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.24189 26.4066C7.31369 26.4411 7.64204 26.5637 8.52504 26.3738C9.59462 26.1438 11.0343 25.5311 12.7183 24.4963C14.7583 23.2426 17.0256 21.4503 19.238 19.238C21.4503 17.0256 23.2426 14.7583 24.4963 12.7183C25.5311 11.0343 26.1438 9.59463 26.3738 8.52504C26.5637 7.64204 26.4411 7.31369 26.4066 7.24189C26.345 7.21246 26.143 7.14535 25.6664 7.1918C24.9745 7.25925 23.9954 7.5498 22.7699 8.14278C20.3369 9.32007 17.3369 11.4915 14.4142 14.4142C11.4915 17.3369 9.32007 20.3369 8.14278 22.7699C7.5498 23.9954 7.25925 24.9745 7.1918 25.6664C7.14534 26.143 7.21246 26.345 7.24189 26.4066ZM29.9001 10.7285C29.4519 12.0322 28.7617 13.4172 27.9042 14.8126C26.465 17.1544 24.4686 19.6641 22.0664 22.0664C19.6641 24.4686 17.1544 26.465 14.8126 27.9042C13.4172 28.7617 12.0322 29.4519 10.7285 29.9001L21.5754 40.747C21.6001 40.7606 21.8995 40.931 22.8729 40.7217C23.9424 40.4916 25.3821 39.879 27.0661 38.8441C29.1062 37.5904 31.3734 35.7982 33.5858 33.5858C35.7982 31.3734 37.5904 29.1062 38.8441 27.0661C39.879 25.3821 40.4916 23.9425 40.7216 22.8729C40.931 21.8995 40.7606 21.6001 40.747 21.5754L29.9001 10.7285ZM29.2403 4.41187L43.5881 18.7597C44.9757 20.1473 44.9743 22.1235 44.6322 23.7139C44.2714 25.3919 43.4158 27.2666 42.252 29.1604C40.8128 31.5022 38.8165 34.012 36.4142 36.4142C34.012 38.8165 31.5022 40.8128 29.1604 42.252C27.2666 43.4158 25.3919 44.2714 23.7139 44.6322C22.1235 44.9743 20.1473 44.9757 18.7597 43.5881L4.41187 29.2403C3.29027 28.1187 3.08209 26.5973 3.21067 25.2783C3.34099 23.9415 3.8369 22.4852 4.54214 21.0277C5.96129 18.0948 8.43335 14.7382 11.5858 11.5858C14.7382 8.43335 18.0948 5.9613 21.0277 4.54214C22.4852 3.8369 23.9415 3.34099 25.2783 3.21067C26.5973 3.08209 28.1187 3.29028 29.2403 4.41187Z"
+                      fill="currentColor"
+                    ></path>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_6_543"><rect width="48" height="48" fill="white"></rect></clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <h2 class="text-[#101718] text-lg font-bold leading-tight tracking-[-0.015em]">LabEase</h2>
+            </div>
+            <div class="flex items-center gap-9">
+              <a class="text-[#101718] text-sm font-medium leading-normal" href="#">For Patients</a>
+              <a class="text-[#101718] text-sm font-medium leading-normal" href="#">For Labs</a>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                <div
+                  class="text-[#5e878d] flex border-none bg-[#f0f4f5] items-center justify-center pl-4 rounded-l-xl border-r-0"
+                  data-icon="MagnifyingGlass"
+                  data-size="24px"
+                  data-weight="regular"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  placeholder="Search"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101718] focus:outline-0 focus:ring-0 border-none bg-[#f0f4f5] focus:border-none h-full placeholder:text-[#5e878d] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  value=""
+                />
+              </div>
+            </label>
+            <div class="flex gap-2">
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#006f80] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+              >
+                <span class="truncate">Log In</span>
+              </button>
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f0f4f5] text-[#101718] text-sm font-bold leading-normal tracking-[0.015em]"
+              >
+                <span class="truncate">Sign Up</span>
+              </button>
+            </div>
+          </div>
+        </header>
+        <div class="gap-1 px-6 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[920px] flex-1">
+            <div class="px-4 py-3">
+              <label class="flex flex-col min-w-40 h-12 w-full">
+                <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                  <div
+                    class="text-[#5e878d] flex border-none bg-[#f0f4f5] items-center justify-center pl-4 rounded-l-xl border-r-0"
+                    data-icon="MagnifyingGlass"
+                    data-size="24px"
+                    data-weight="regular"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path
+                        d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <input
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101718] focus:outline-0 focus:ring-0 border-none bg-[#f0f4f5] focus:border-none h-full placeholder:text-[#5e878d] px-4 rounded-r-none border-r-0 pr-2 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                    value="Blood Test"
+                  />
+                  <div class="flex items-center justify-center rounded-r-xl border-l-0 border-none bg-[#f0f4f5] pr-2 pr-4">
+                    <button
+                      class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-transparent text-[#101718] gap-2 text-base font-bold leading-normal tracking-[0.015em] h-auto min-w-0 px-0"
+                    >
+                      <div class="text-[#5e878d]" data-icon="XCircle" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                          <path
+                            d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
+                          ></path>
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <h2 class="text-[#101718] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">12 results</h2>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">HealthCheck Labs</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">123 Elm Street, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSb5fRT4Tc8oQ2-WCw1GpVcXdPq5F8zLcSAvlvZboeI-o5VoBR4DD4syJh0dPizTLL9Z3Aq0d-IF5Us6BYFf3JIOEtjOzlXa5xKGRLuEyoBlTt8b_YBlwJhovT-EnXuX4ba93QxJa3nQSCm5ZEA8LcqSznz9ThdRivposAupU2dvNkEyQevDFFm520ra3SJezNLtW4b-k-u7JAbNenYrBq1NT-4VpfRyeARYLzqsI5b4DleoAz2ZGdRuSsW8hSm35D8ju7bwzKPdE");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Vitality Diagnostics</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">456 Oak Avenue, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC1_6_WgCO2wiGXvWm-3x3e1AmDJWHgm8SnB1-fDBut-u3Nh6upcK6_CGkIJaq24uuaMY23tTmDGRStudAOIzYY5jyT1ulv8uIn9lAsP_sFYSU1SCjvm1pKD8ldhVBbRtYEA68luClSoeDSaHNI5iG0nwtfhen40DLgAWDym_OZnLED_lI0tFrZEsPpEJmlrzkV3uIphudWCCGaDhZo8x4-jL7j7npeMl-8B7yRT57SnJfcIDVxrKsdd_6u-ted92mcanOkRMRO958");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Precision Health Labs</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">789 Pine Lane, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCN3ALrt2qjKZrOtrrtiuZ43QmkevBOJCFejYpqM2EeP0QZ_TMD3uiyFImpCL-D_62pFURG7VXBo3rHK1aRiD0Bym6NvL_3rKAd5XLlZ0ha8u6TewBXKi1xkrwLc7R7uAKKmv5PS8stsJyiKNJcJTmOervbXpcBjUpicA-wA9rP_V5xEHEJeyvH3SNENLQ27piNkvtxA-eiyNb6KdsYoKccvIE9zfFWAuns-9PndeMTFc3KEJnrt4RY4wH8b6fMOtXDOkiZ0IAbY00");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Clarity Medical Labs</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">101 Maple Drive, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtybayXHQrbXvobDa1kW2Nawb-0-keK32x_AaO1XmXQCYRG8FqIfegwZsdqBpG2dGLOBBrUqrA-uaEyZx5_b87ObEUHgiu-j0OO7YnaHhpevdeGbgRaJd22-Puo-Ae7Tw8Z4qYT-FOIliVvz9CYKXtEjw1IQzErY7WyhJ1xd_GyIEOd3y85rDWUCOYnjJfOVe-Q5TXmKZO68OMzDboBniY90TcfsA5yVQcJ6E4by6SfHuWj0Kn18_T4FMmfv3m3hICbFE4QN5xz_k");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Advanced Health Solutions</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">222 Cedar Road, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCOFYjxyzrRfwMyKnWCbdRbWRYdSAGZ-OB8xkOfbkD4w2aM4nhLHCO9sJUxbiGuPJPa9Zrf4Hk5nFHbN5z1JcIaKTU4zu6-YLZmM-7YCYJqY7kT1Ozm_jd99g9CLh6jm3nR2VZ-qrpYqCQB_YNYbb-M7s03n737fK89QJ_fGndQnraevJqWkseq5fEEWQXwiTrwLyOBuJweTFpZFvbad5PLT3sjmQTKBWoIvb01plU0TsSK4FmSVkiJ4qGjC1NV6l7I3bcEpEwcloM");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Integrated Wellness Labs</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">333 Birch Court, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBINJUycs6NMRUhhe3FcaPwoPDQHbukG8Wek9tFuZc80PeFSIDMAZD26YQiaXU_PLnS2h8dEzYTIE9dOj-aBiFZTUf65vizqYRaC8sBoFwcXmqVyaYIEapwQbD2ohx_syQ7TiL69tL0vtxBWm4EGgGRJeBgzB5dDPCj4cXSM8xuaYAHmjlgpoHwpbqi_mF_Unf4Ld0lEfswopGWBXqsRozQqIfrWhhNpt6WxPSkenhfg46bjNyVW5jUGdTjbECyS-0EyX6yV-w82QA");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Optimal Health Diagnostics</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">444 Willow Place, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1mLNQ3kVwdOvZbmF3wY5qnojSlpsZkrnuPA4rNceYApzemefdON4SaURlqZiOZ5MdBZfq4TEcanmwORZ8mgQK3PJOw7SfFY-QFCNXNaPP5zsIOunapXCcvhk1LvFDmherHWUAoXeELZIFzVTCXsW0zf7c5JZz_rbmbX30Jh2m2yFAusfJda3YwF2wPB5LcI1cbPkWeTyKdbt4vKry5tEaZLYRKAgGMzb4XLYFqGGOmpa9pHGU2byS-FSlPeK_vBVFSI65GMPw398");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Comprehensive Care Labs</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">555 Spruce Way, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-blAUjzct9sxeb5s8KQ7IryI9VtDrkmH7JHUmib1KPn734M-thhTNxmj-sSUROeHABRhF--AEMu0dzxBg75DXOcIDF6ZWIQ61leJw4m0x-8OcQEaYqa1onKG5qgU86UrXGxhOQPb29ozObVwUiwKNp52DEWxQuAnBzz7pojNEOZOrx9AJjKx8rsV1LDtA3Dw66wcAYFUMwW0t0oRSWnqdWwbKnvAMYLovYwiRktmtEkmA_EigPt7JJIjKwnBbelJPEVSttDUWtkQ");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Proactive Health Labs</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">666 Aspen Circle, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPsK5sT9lVEZHu8lI2FkfBh3aikizyDFXwuBFNduMuX-R6mzBXAEyBzl7i8mcY3A1fpAnG7gVxhR-WAEskRdaBmjBP6Lky0Mo5rck9CShWIQ7ElNlApWpekle2fM2AZOvKl-iOlkVDbBVgzA9kjO_kLobWdoPCT3AWlD5qZwNL2aHlsbpQXo9Qh4BR2lr-UXBkM0oTQzKaEJZ4nGkk398pmEoFLqMJmKbUw10gX8qKtTT9l-EIvyne8x1IqS9ujMUYmAV6Nq_GJ-M");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Total Health Diagnostics</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">777 Redwood Boulevard, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAyjzF0lOmAUHoB9SJpxjHQU-wiZuDcqcUmadalbNzlQf52NCQYytP3hYux_IqV1-fc9t7CLnZZ-ZbV5A8FOG4dcbYWU9JHtpCGGoR076ge-5LslhfY-nhpY2Ov5hW1WeTMwgpHrPNw03GpYchO-Vz00QBKpnyUfSHDl3Srfk2yni7490Wxp93nFQBpioyfLQQ0Jrn6GHPRkm-BmaswI7A6Sp8nPNJUaEB2yqeFWFyTopUS3-CLcKNsI9UoN4IdUL_y_TeBe8_fKBI");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Premier Health Labs</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">888 Sequoia Street, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyYD_Zfdmhg1CtmU6nsPOv6CGfD8eZ5d3wnG0_s7dp7G0qlcP3mvn56L4UfZFEOJ_q93TBSrW_Vc1iR-4GDx7k6NTlJEadF3XprAMe_PJEUCcBL_N_n5wFnQluExxJNq3cJsa7pEQvHtBF8HQMyY4LJvX7r_lF7C_8g_YQ14mldAhLgUPpP0R7gFWb3oA-PMUu-nOj1j8ta0sKrJ7rtDcl9F5swFGjfsvI0hU5w6QEDrMqwHIXjvtBR8VvLHY5-qkGp5zDtHngYOU");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-[#101718] text-base font-bold leading-tight">Elite Health Solutions</p>
+                    <p class="text-[#5e878d] text-sm font-normal leading-normal">999 Cypress Avenue, Anytown, USA</p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#f0f4f5] text-[#101718] text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">Open in Maps</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtin2a6ptIcaDHAMkoJ8wLYhNjlTcBTGMaGPZFA0zR50Xj8ZQysHBe0qvQ3eYjVJ4-SJJe1R5GYqLXWAwFnyEYHRxSZrZUV52yYJHi1qVEQocK85MLugcekzWb4JTzdRtFuJiQgRcW2_ZKyfJlQUoGVM9KuwA4swvXk0hAEq4psRwuPag5_MqcDVz-fzDS1ml5QgVNRheHECF6Tvs3pCe3sZAR66mQ2aJAqSdpNT2tkQe-cSmlMiwx2bYUCdvFso3b4KuEJSIc_kk");'
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="layout-content-container flex flex-col w-[360px]">
+            <h3 class="text-[#101718] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Filter</h3>
+            <div class="@container">
+              <div class="relative flex w-full flex-col items-start justify-between gap-3 p-4 @[480px]:flex-row">
+                <p class="text-[#101718] text-base font-medium leading-normal w-full shrink-[3]">Distance (miles)</p>
+                <div class="flex h-[38px] w-full pt-1.5">
+                  <div class="flex h-1 w-full rounded-sm bg-[#dae5e7] pl-[60%] pr-[15%]">
+                    <div class="relative">
+                      <div class="absolute -left-3 -top-1.5 flex flex-col items-center gap-1">
+                        <div class="size-4 rounded-full bg-[#101718]"></div>
+                        <p class="text-[#101718] text-sm font-normal leading-normal">0</p>
+                      </div>
+                    </div>
+                    <div class="h-1 flex-1 rounded-sm bg-[#101718]"></div>
+                    <div class="relative">
+                      <div class="absolute -left-3 -top-1.5 flex flex-col items-center gap-1">
+                        <div class="size-4 rounded-full bg-[#101718]"></div>
+                        <p class="text-[#101718] text-sm font-normal leading-normal">10</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="@container">
+              <div class="relative flex w-full flex-col items-start justify-between gap-3 p-4 @[480px]:flex-row">
+                <p class="text-[#101718] text-base font-medium leading-normal w-full shrink-[3]">Rating</p>
+                <div class="flex h-[38px] w-full pt-1.5">
+                  <div class="flex h-1 w-full rounded-sm bg-[#dae5e7] pl-[60%] pr-[15%]">
+                    <div class="relative">
+                      <div class="absolute -left-3 -top-1.5 flex flex-col items-center gap-1">
+                        <div class="size-4 rounded-full bg-[#101718]"></div>
+                        <p class="text-[#101718] text-sm font-normal leading-normal">1</p>
+                      </div>
+                    </div>
+                    <div class="h-1 flex-1 rounded-sm bg-[#101718]"></div>
+                    <div class="relative">
+                      <div class="absolute -left-3 -top-1.5 flex flex-col items-center gap-1">
+                        <div class="size-4 rounded-full bg-[#101718]"></div>
+                        <p class="text-[#101718] text-sm font-normal leading-normal">5</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="@container">
+              <div class="relative flex w-full flex-col items-start justify-between gap-3 p-4 @[480px]:flex-row">
+                <p class="text-[#101718] text-base font-medium leading-normal w-full shrink-[3]">Price ($)</p>
+                <div class="flex h-[38px] w-full pt-1.5">
+                  <div class="flex h-1 w-full rounded-sm bg-[#dae5e7] pl-[60%] pr-[15%]">
+                    <div class="relative">
+                      <div class="absolute -left-3 -top-1.5 flex flex-col items-center gap-1">
+                        <div class="size-4 rounded-full bg-[#101718]"></div>
+                        <p class="text-[#101718] text-sm font-normal leading-normal">0</p>
+                      </div>
+                    </div>
+                    <div class="h-1 flex-1 rounded-sm bg-[#101718]"></div>
+                    <div class="relative">
+                      <div class="absolute -left-3 -top-1.5 flex flex-col items-center gap-1">
+                        <div class="size-4 rounded-full bg-[#101718]"></div>
+                        <p class="text-[#101718] text-sm font-normal leading-normal">200</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex px-4 py-3">
+              <div
+                class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl object-cover"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBl_emzCXFgwLaGpX3lZ0jprQReWxr9sTzz6dmNPvd6XC4HkM4vQoMJquUPSWAZh4NiufJNvNwBD9M8LVwKQV55pDE8Al1sX8_88IReFKtupzWQN5o8LGe0TLjsU0cEShlutQFnRCxr6zJNgvCjSHn5EHyl0nl1hFA5v2Gg03ytnpWpvwTQmNoqGnWe7qhBPUE0AfcDiPBhOvtY00HGd4b-AdWr5aC8bbHOY5QnLmeGFoIxXs31hD0NZmTfudimte__xidqt_arfEo");'
+              ></div>
+            </div>
+          </div>
+        </div>
+        <footer class="flex justify-center">
+          <div class="flex max-w-[960px] flex-1 flex-col">
+            <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+              <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+                <a class="text-[#5e878d] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a>
+                <a class="text-[#5e878d] text-base font-normal leading-normal min-w-40" href="#">Privacy</a>
+                <a class="text-[#5e878d] text-base font-normal leading-normal min-w-40" href="#">Cookie Policy</a>
+              </div>
+              <p class="text-[#5e878d] text-base font-normal leading-normal">© 2023 LabEase. All rights reserved.</p>
+            </footer>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

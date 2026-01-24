@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Labease</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+
+        </header>
+        {% extends 'base.html' %}
+        
+        {% block title %}Register Your Lab - LabEase{% endblock %}
+        
+        {% block content %}
+        <div class="px-40 flex flex-1 justify-center py-5">
+            <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                <div class="@container">
+                    <div class="@[480px]:px-4 @[480px]:py-3">
+                        <div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-white @[480px]:rounded-lg min-h-80"
+                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAuW_YXQ8Nk4_6it5iqFextweYI0LHSzd3_AOxEvAEjsoeO6yB6j8XxmAlquaSzE2IBb_A5xM8FdxC6q8zJmmmeCPq_ZHmJ5QZw7TMEE3ucHq7EViWPB_SEarYBiIb24qbAWC9T0E5W_HZUbDLe3zTVlTRSH60JgnV6aHHSnQoYEdcgd1CmAuwO8EMD5NIQjFHtC51gZ8EaI1QA4cP0XBfaor0KW3rI9NFCwRsty_4uG8igM8Tbtk3TsYJuKFYZel8Tm9X902XFzfw");'></div>
+                        </div>
+                    </div>
+                    <div class="pb-3">
+                        <div class="flex border-b border-[#dce5e3] px-4 gap-8">
+                            <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#121716] text-[#121716] pb-[13px] pt-4" href="{% url 'lab_registration' %}">
+                                <p class="text-[#121716] text-sm font-bold leading-normal tracking-[0.015em]">Register Your Lab</p>
+                            </a>
+                        </div>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                            {{ form.as_p }}
+                        </div>
+                        <div class="flex px-4 py-3">
+                            <button type="submit" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 flex-1 bg-[#178270] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                <span class="truncate">Register</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endblock %}
+        <footer class="flex justify-center">
+          <div class="flex max-w-[960px] flex-1 flex-col">
+            <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
+              <div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+                <a class="text-[#658680] text-base font-normal leading-normal min-w-40" href="#">Lab Support</a>
+                <a class="text-[#658680] text-base font-normal leading-normal min-w-40" href="#">Registration Guide</a>
+                <a class="text-[#658680] text-base font-normal leading-normal min-w-40" href="#">System Status</a>
+              </div>
+              <p class="text-[#658680] text-base font-normal leading-normal">© 2024 LabEase. All rights reserved.</p>
+            </footer>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

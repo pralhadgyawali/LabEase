@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Labease</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    
+        </header>
+        {% extends 'base.html' %}
+        
+        {% block title %}Contact Us - LabEase{% endblock %}
+        
+        {% block content %}
+        <div class="px-40 flex flex-1 justify-center py-5">
+            <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                <div class="@container">
+                    <div class="@[480px]:p-4">
+                        <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-start justify-end px-4 pb-10 @[480px]:px-10"
+                            style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOfXVP47DfhaRPFMBFa-MHiy4lpt_9PJLV48psJBwICppxgoBJVKB4aTqnR5IpNAl9FxbzMU0zFuzqI5tTjpiLVz5Mdga7VblrpQzYL27dMwc0wyrvIQYHq5435PX4GcxtpwSBs-kP8p1LQQ0F7xe10fprjmv1wiXUA7tDNQWv9LtwE6_LeZ6KVTffUzhZOsJwYc0_fil1O0Rj1oCe_mOMyjO7v22GayshPS7oc9_TGtIXPAcbVsep3lucfcSIvekJOWqqku2SC1U");'>
+                            <div class="flex flex-col gap-2 text-left">
+                                <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+                                    We're here to help
+                                </h1>
+                                <h2 class="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
+                                    Our team is dedicated to providing you with the best possible support. Whether you have questions about our services, need assistance with your account, or
+                                    want to provide feedback, we're here to listen and help.
+                                </h2>
+                            </div>
+                            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#3df5f5] text-[#111818] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]">
+                                <span class="truncate">Contact Us</span>
+                            </button>
+                        </div>
+                    </div>
+                    <h2 class="text-[#111818] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Get in Touch</h2>
+                    <form method="post" class="flex flex-col gap-4 px-4 py-3">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="flex justify-start">
+                            <button type="submit" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#3df5f5] text-[#111818] text-sm font-bold leading-normal tracking-[0.015em]">
+                                <span class="truncate">Send Message</span>
+                            </button>
+                        </div>
+                    </form>
+                    <h2 class="text-[#111818] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Contact Information</h2>
+                    <div class="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
+                        <div class="text-[#111818] flex items-center justify-center rounded-lg bg-[#f0f5f5] shrink-0 size-12" data-icon="MapPin" data-size="24px" data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <p class="text-[#111818] text-base font-medium leading-normal line-clamp-1">Address</p>
+                            <p class="text-[#608a8a] text-sm font-normal leading-normal line-clamp-2">Maitidevi, Kathmandu</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
+                        <div class="text-[#111818] flex items-center justify-center rounded-lg bg-[#f0f5f5] shrink-0 size-12" data-icon="Phone" data-size="24px" data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <p class="text-[#111818] text-base font-medium leading-normal line-clamp-1">Phone</p>
+                            <p class="text-[#608a8a] text-sm font-normal leading-normal line-clamp-2">+977 9876543210</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
+                        <div class="text-[#111818] flex items-center justify-center rounded-lg bg-[#f0f5f5] shrink-0 size-12" data-icon="Envelope" data-size="24px" data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <p class="text-[#111818] text-base font-medium leading-normal line-clamp-1">Email</p>
+                            <p class="text-[#608a8a] text-sm font-normal leading-normal line-clamp-2">support@labease.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

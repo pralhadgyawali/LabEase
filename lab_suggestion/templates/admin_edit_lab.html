@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Lab - Admin{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">Edit Lab: {{ lab.name }}</h1>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2>Lab Details</h2>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <!-- Username Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_username">Username</label>
+                {{ form.username }}
+                <p class="text-gray-600 text-xs italic">{{ form.username.help_text }}</p>
+                {% for error in form.username.errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <!-- Email Address Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_email">Email address</label>
+                {{ form.email }}
+                {% for error in form.email.errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <!-- Lab Name Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_name">Name</label>
+                {{ form.name }}
+                <p class="text-gray-600 text-xs italic">{{ form.name.help_text }}</p>
+                {% for error in form.name.errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <!-- Lab Address Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_address">Address</label>
+                {{ form.address }}
+                <p class="text-gray-600 text-xs italic">{{ form.address.help_text }}</p>
+                {% for error in form.address.errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <!-- Lab Contact Email Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_contact_email">Contact email</label>
+                {{ form.contact_email }}
+                <p class="text-gray-600 text-xs italic">{{ form.contact_email.help_text }}</p>
+                {% for error in form.contact_email.errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <!-- Lab Contact Phone Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_contact_phone">Contact phone</label>
+                {{ form.contact_phone }}
+                <p class="text-gray-600 text-xs italic">{{ form.contact_phone.help_text }}</p>
+                {% for error in form.contact_phone.errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <h2>Existing Tests for This Lab (Edit/Delete)</h2>
+            {{ formset.management_form }}
+            <div class="test-formset">
+                {% for test_form in formset %}
+                    <div class="test-form">
+                        {{ test_form.id }} <!-- Hidden ID for formset processing -->
+                        <h4>Test #{{ forloop.counter }}</h4>
+                        {{ test_form.name.label_tag }} {{ test_form.name }}<br>
+                        {{ test_form.description.label_tag }} {{ test_form.description }}<br>
+                        {{ test_form.price.label_tag }} {{ test_form.price }}<br>
+                        {{ test_form.popularity.label_tag }} {{ test_form.popularity }}<br>
+                        {{ test_form.DELETE.label_tag }} {{ test_form.DELETE }} <!-- Delete checkbox -->
+                        {% if test_form.errors %}
+                            <div class="errors">
+                                {% for field in test_form %}
+                                    {% for error in field.errors %}
+                                        <p>{{ field.label }}: {{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <hr>
+                {% empty %}
+                    <p>No tests are currently associated with this lab.</p>
+                {% endfor %}
+            </div>
+            <h3>Add New Test</h3>
+            {{ test_form.as_p }}
+            <button type="submit">Save Changes</button>
+            <a href="{% url 'admin_lab_list' %}">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

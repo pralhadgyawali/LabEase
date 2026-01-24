@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+    {% block title %}Search Results - LabEase{% endblock %}
+
+    {% block content %}
+    <div class="container mx-auto px-6 py-4">
+        <h2 class="text-2xl font-bold mb-6">Search Results for "{{ query }}"</h2>
+
+        {% if display_results %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for item in display_results %}
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h3 class="text-xl font-semibold mb-2">Test Name: {{ item.test_name }}</h3>
+                        <p class="text-gray-600 mb-2">Description: {{ item.test_description|truncatechars:100 }}</p>
+                        <p class="text-gray-800 font-medium mb-2">Price: Rs.{{ item.test_price|default:"No price provided" }}</p>
+                        <h4 class="text-lg font-semibold mb-2">Lab Details:</h4>
+                        <p class="text-gray-600 mb-1">
+                            <span class="font-medium">Lab Name:</span> {{ item.lab_name }}
+                        </p>
+                        <p class="text-gray-600 mb-1">
+                            <span class="font-medium">Address:</span> {{ item.lab_address|default:"No address provided" }}
+                        </p>
+                        <p class="text-gray-600 mb-1">
+                            Email: {{ item.lab_contact_email|default:"No email provided" }} | Phone: {{ item.lab_contact_phone|default:"No phone provided" }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-600">No labs found offering the requested test.</p>
+        {% endif %}
+    </div>
+    {% endblock %}

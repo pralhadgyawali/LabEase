@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LabEase{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-md">
+        <nav class="bg-white shadow-md">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="{% url 'index' %}" class="text-2xl font-bold text-gray-800">LabEase</a>
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'index' %}" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="{% url 'about_page' %}" class="text-gray-600 hover:text-gray-900">About</a>
+                    <a href="{% url 'contact_page' %}" class="text-gray-600 hover:text-gray-900">Contact</a>
+                    
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <!-- Admin User Links (Removed Non-Working Dropdown) -->
+                            <a href="{% url 'admin_lab_list' %}" class="text-gray-600 hover:text-gray-900">Manage Labs</a>
+                        {% elif user.lab %}
+                            <!-- Lab User Links (Unchanged) -->
+                            <a href="{% url 'manage_lab' %}" class="text-gray-600 hover:text-gray-900">My Lab</a>
+                            <div class="relative group">
+                                <button class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                                    Lab: {{ user.username }} &#9662;
+                                </button>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% else %}
+                            <!-- Regular Authenticated User Links (Unchanged) -->
+                            <div class="relative group">
+                                <button class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                                    {{ user.username }} &#9662;
+                                </button>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <!-- Not Logged In Links (Unchanged) -->
+                        <a href="{% url 'login' %}" class="text-gray-600 hover:text-gray-900">Login</a>
+                        <a href="{% url 'admin_login' %}" class="text-gray-600 hover:text-gray-900">Admin Login</a>
+                        <a href="{% url 'lab_registration' %}" class="text-gray-600 hover:text-gray-900">Register Lab</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="my-8">
+        {% block content %}{% endblock %}
+        <!-- Admin Logout Button (Added Before Footer, Matches Labmanage Page Style) -->
+        {% if user.is_authenticated and user.is_superuser %}
+            <div class="container mx-auto px-6 mb-4">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Logout</button>
+                </form>
+            </div>
+        {% endif %}
+    </main>
+
+    <footer class="bg-white">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <p class="text-gray-500">© 2024 LabEase. All rights reserved.</p>
+                <div>
+                    <a href="#" class="text-gray-500 hover:text-blue-500 mx-2">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-blue-500 mx-2">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
