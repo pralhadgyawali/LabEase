@@ -183,7 +183,7 @@ def admin_edit_lab(request, lab_id):
             'username': user.username,
             'email': user.email,
         })
-        test_form = TestForm(request.POST)
+        test_form = TestForm(request.POST, prefix='test') # Initialize with prefix in POST request
         formset = TestFormSet(request.POST, queryset=lab.tests.all(), prefix='tests')
 
         if form.is_valid() and formset.is_valid():
@@ -205,7 +205,7 @@ def admin_edit_lab(request, lab_id):
                 lab.tests.remove(test_instance) # Disassociate deleted tests from the lab
 
             # Handle adding a new test ONLY if the name field is provided
-            if request.POST.get('tests-0-name') and test_form.is_valid(): # Check if 'name' for new test is present
+            if request.POST.get('test-name') and test_form.is_valid(): # Check for 'test-name' with the correct prefix
                 new_test = test_form.save()
                 lab.tests.add(new_test)
                 messages.success(request, 'New test added and associated with the lab.')
@@ -214,6 +214,8 @@ def admin_edit_lab(request, lab_id):
             return redirect('admin_lab_list')
         else:
             print("Form errors:", form.errors) # Add this line to inspect form errors
+            print("Test Form errors:", test_form.errors) # Add this line to inspect new test form errors
+            print("Formset errors:", formset.errors) # Add this line to inspect formset errors
             messages.error(request, 'Please correct the errors below.')
     else:
         form = AdminLabEditForm(instance=lab, initial={

@@ -22,7 +22,7 @@ class Lab(models.Model):
     contact_phone = models.CharField(max_length=20, default='000-000-0000')
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
-    tests = models.ManyToManyField(Test, blank=True) # This line should NOT have through='LabTestDetail'
+    tests = models.ManyToManyField(Test, through='LabTestDetail', blank=True)
 
 class LabTestDetail(models.Model):
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE)

@@ -50,7 +50,7 @@
                 <tr class="border-b">
                     <td class="py-2 px-4">{{ test.name }}</td>
                     <td class="py-2 px-4">{{ test.description|default:"N/A" }}</td>
-                    <td class="py-2 px-4">${{ test.price|default:"Not set" }}</td>
+                    <td class="py-2 px-4">RS.{{ test.price|default:"Not set" }}</td>
                     <td class="py-2 px-4">
                         <a href="{% url 'edit_test' test.id %}" class="text-blue-500 hover:underline">Edit</a>
                         <a href="{% url 'delete_test' test.id %}" class="text-red-500 hover:underline ml-4">Delete</a>
