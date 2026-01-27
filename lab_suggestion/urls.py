@@ -14,8 +14,10 @@ urlpatterns = [
     path('lab-admin/labs/<int:lab_id>/delete/', views.admin_delete_lab, name='admin_delete_lab'),
     path('lab-admin/contacts/', views.view_contacts, name='view_contacts'),
     path('lab/dashboard/', views.manage_lab, name='manage_lab'),
-    path('lab/test/<int:test_id>/edit/', views.edit_test, name='edit_test'),
-    path('lab/test/<int:test_id>/delete/', views.delete_test, name='delete_test'),
+    path('lab/edit_test/<int:test_id>/', views.edit_test, name='edit_test'),
+    path('lab/delete_test/<int:test_id>/', views.delete_test, name='delete_test'),
+    path('lab/delete_message/<int:message_id>/', views.delete_message, name='delete_message'), # New URL pattern
+    path('admin/delete_message/<int:message_id>/', views.admin_delete_message, name='admin_delete_message'),
     path('admin/upload_excel/', views.upload_excel, name='admin_upload_excel'), # Renamed for clarity
     path('lab/upload_tests_excel/', views.lab_upload_tests_excel, name='lab_upload_tests_excel'), # New URL for lab users
 ]

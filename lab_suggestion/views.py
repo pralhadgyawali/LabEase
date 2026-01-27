@@ -45,8 +45,19 @@ def contact_page(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
+            recipient_choice = form.cleaned_data['recipient_choice']
+            contact_message = form.save(commit=False)
+            if recipient_choice == 'admin':
+                contact_message.recipient_admin = True
+                contact_message.lab = None
+            else:
+                contact_message.recipient_admin = False
+                contact_message.lab = Lab.objects.get(id=int(recipient_choice))
+            contact_message.save()
+            messages.success(request, 'Your message has been sent successfully!')
             return redirect('index')  # Or a 'thank you' page
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
@@ -57,7 +68,7 @@ def search_labs(request):
     display_results = [] # This will store a list of dictionaries, each representing a test-lab pair
 
     if query:
-        # Find tests that match the query
+        # Find tests that match the query (case-insensitive)
         matching_tests = Test.objects.filter(name__icontains=query)
         print(f"Matching tests found: {matching_tests}")
 
@@ -120,12 +131,15 @@ def manage_lab(request):
         form = TestForm()
 
     tests = lab.tests.all()
-    print(f"Debug: Tests retrieved for lab {lab.name} in manage_lab view: {tests.count()} tests")
-    for test in tests:
-        print(f"Debug: Test in manage_lab: {test.name}")
+    # New: Fetch messages sent to this lab (recipient_admin is False)
+    lab_messages = ContactMessage.objects.filter(lab=lab, recipient_admin=False)
+    print(f"Debug: Messages retrieved for lab {lab.name}: {lab_messages.count()} messages")
+    for msg in lab_messages:
+        print(f"Debug: Message: {msg.message}") # Changed from msg.subject to msg.message
     # Add ExcelUploadForm to context for lab-only upload interface
     excel_upload_form = ExcelUploadForm()
-    return render(request, 'labmanage.html', {'lab': lab, 'tests': tests, 'form': form, 'excel_upload_form': excel_upload_form})
+    # New: Pass lab_messages to the template
+    return render(request, 'labmanage.html', {'lab': lab, 'tests': tests, 'form': form, 'excel_upload_form': excel_upload_form, 'lab_messages': lab_messages})
 
 
 @login_required
@@ -173,8 +187,8 @@ def admin_edit_lab(request, lab_id):
     lab = get_object_or_404(Lab, pk=lab_id)
     user = lab.user
     
-    # Create a formset for managing existing tests associated with the lab
-    TestFormSet = modelformset_factory(Test, fields=('name', 'description', 'price', 'popularity'), extra=0, can_delete=True)
+    # Removed 'popularity' from fields list in modelformset_factory
+    TestFormSet = modelformset_factory(Test, fields=('name', 'description', 'price'), extra=0, can_delete=True)
 
     if request.method == 'POST':
         print("Raw POST data:", request.POST) # Add this line
@@ -264,33 +278,28 @@ def upload_excel(request):
                 sheet = workbook.active
 
                 # Assuming the first row is headers
-                headers = [cell.value for cell in sheet[1]]
+                headers = [cell.value.lower() if cell.value else None for cell in sheet[1]]
 
                 # Basic validation for required columns
-                required_lab_cols = ['Lab Name', 'Address', 'City', 'State', 'Zip Code', 'Phone Number', 'Contact Email', 'Contact Phone']
-                required_test_cols = ['Test Name', 'Test Description', 'Test Price']
+                required_lab_cols = ['lab name', 'address', 'city', 'state', 'zip code', 'phone number', 'contact email', 'contact phone']
+                required_test_cols = ['test name', 'test description', 'test price']
 
                 if not all(col in headers for col in required_lab_cols + required_test_cols):
-                    messages.error(request, "Missing one or more required columns in the Excel file. Required: Lab Name, Address, City, State, Zip Code, Phone Number, Contact Email, Contact Phone, Test Name, Test Description, Test Price.")
+                    messages.error(request, "Missing one or more required columns in the Excel file (case-insensitive). Required: Lab Name, Address, City, State, Zip Code, Phone Number, Contact Email, Contact Phone, Test Name, Test Description, Test Price.")
                     return render(request, 'admin_upload_excel.html', {'form': form})
 
                 for row_index in range(2, sheet.max_row + 1):
                     row_data = {headers[i]: cell.value for i, cell in enumerate(sheet[row_index])}
 
                     # Create or get Lab
-                    lab_name = row_data.get('Lab Name')
+                    lab_name = row_data.get('lab name')
                     if not lab_name:
                         messages.warning(request, f"Skipping row {row_index}: Lab Name is missing.")
                         continue
 
-                    # For simplicity, let's assume a user for the lab already exists or we create a dummy one.
-                    # In a real application, you'd link to an existing user or create a new one with a proper username/password.
-                    # For now, we'll try to find an existing lab by name.
                     try:
-                        lab = Lab.objects.get(name=lab_name)
+                        lab = Lab.objects.get(name__iexact=lab_name) # Case-insensitive search for existing lab
                     except Lab.DoesNotExist:
-                        # If lab doesn't exist, create a dummy user and then the lab
-                        # This part needs careful consideration for production. For now, a simple approach.
                         user, created = User.objects.get_or_create(username=f"lab_{lab_name.replace(' ', '_').lower()}", defaults={'is_active': True})
                         if created:
                             user.set_password('defaultpassword') # IMPORTANT: Change this for production!
@@ -298,24 +307,24 @@ def upload_excel(request):
                         lab = Lab.objects.create(
                             user=user,
                             name=lab_name,
-                            address=row_data.get('Address', ''),
-                            city=row_data.get('City', ''),
-                            state=row_data.get('State', ''),
-                            zip_code=row_data.get('Zip Code', ''),
-                            phone_number=row_data.get('Phone Number', ''),
-                            contact_email=row_data.get('Contact Email', 'noreply@example.com'),
-                            contact_phone=row_data.get('Contact Phone', '000-000-0000')
+                            address=row_data.get('address', ''),
+                            city=row_data.get('city', ''),
+                            state=row_data.get('state', ''),
+                            zip_code=row_data.get('zip code', ''),
+                            phone_number=row_data.get('phone number', ''),
+                            contact_email=row_data.get('contact email', 'noreply@example.com'),
+                            contact_phone=row_data.get('contact phone', '000-000-0000')
                         )
                         messages.info(request, f"Created new lab: {lab_name}")
 
                     # Create or get Test and associate with Lab
-                    test_name = row_data.get('Test Name')
+                    test_name = row_data.get('test name')
                     if test_name:
                         test, created = Test.objects.get_or_create(
-                            name=test_name,
+                            name__iexact=test_name, # Case-insensitive search for existing test
                             defaults={
-                                'description': row_data.get('Test Description', ''),
-                                'price': row_data.get('Test Price', 0.00)
+                                'description': row_data.get('test description', ''),
+                                'price': row_data.get('test price', 0.00)
                             }
                         )
                         if created:
@@ -337,7 +346,7 @@ def upload_excel(request):
 def lab_upload_tests_excel(request):
     if not hasattr(request.user, 'lab'):
         messages.error(request, "You must be a registered lab to upload tests.")
-        return redirect('lab_registration') # Or an appropriate redirect
+        return redirect('lab_registration')
 
     if request.method == 'POST':
         form = ExcelUploadForm(request.POST, request.FILES)
@@ -349,55 +358,87 @@ def lab_upload_tests_excel(request):
 
                 # Assuming the first row is headers
                 headers = [cell.value.lower() if cell.value else None for cell in sheet[1]]
-                expected_headers = ['name', 'description', 'price', 'popularity']
+                expected_headers = ['name', 'description', 'price']
+
+                # Fix 1: Map "test name" header to "name" if present
+                if 'test name' in headers and 'name' not in headers:
+                    headers[headers.index('test name')] = 'name'
 
                 if not all(header in headers for header in expected_headers):
-                    # Update error message to clarify case insensitivity
-                    messages.error(request, "Missing required columns in Excel file (case-insensitive). Expected: Name, Description, Price, Popularity.")
-                    return redirect('manage_lab')
+                    messages.error(request, "Missing required columns (case-insensitive). Accepts: Name/Test Name, Description, Price.")
+                    return render(request, 'labmanage.html', {'form': form, 'lab': request.user.lab, 'tests': request.user.lab.tests.all()})
 
                 for row_index in range(2, sheet.max_row + 1):
-                    row_data = {headers[i]: sheet.cell(row=row_index, column=i+1).value for i in range(len(headers))}
+                    row_data = {headers[i]: cell.value for i, cell in enumerate(sheet[row_index])}
 
                     test_name = row_data.get('name')
-                    test_description = row_data.get('description')
-                    test_price = row_data.get('price')
-                    test_popularity = row_data.get('popularity', 0)
+                    test_description = row_data.get('description', '')
+                    test_price = row_data.get('price', 0.00)
 
-                    if not test_name or test_price is None:
-                        messages.warning(request, f"Skipping row {row_index}: Test name and price are required.")
+                    if not test_name:
+                        messages.warning(request, f"Skipping row {row_index}: Test Name is missing.")
                         continue
 
-                    # Create or update the test
-                    # The following lines are incorrect and should be removed or commented out:
-                    # test_name = row_data['test_name'] 
-                    # test_price = row_data['test_price']
-                    # test_description = row_data['test_description']
-
-                    print(f"Debug: Processing test from Excel - Name: {test_name}, Price: {test_price}, Description: {test_description}")
-
-                    test, created = Test.objects.update_or_create(
-                        name=test_name,
-                        defaults={'price': test_price, 'description': test_description}
+                    test, created = Test.objects.get_or_create(
+                        name__iexact=test_name, # Case-insensitive search
+                        defaults={
+                            'description': test_description,
+                            'price': test_price
+                        }
                     )
+                    
+                    # Explicitly update fields even if the test already existed
+                    test.name = test_name # Ensure name is set/updated
+                    test.description = test_description
+                    test.price = test_price
+                    test.save()
+
                     if created:
-                        print(f"Debug: Created new test: {test.name}")
+                        messages.info(request, f"Created new test: {test_name}")
                     else:
-                        print(f"Debug: Updated existing test: {test.name}")
+                        messages.info(request, f"Updated existing test: {test_name}")
 
                     request.user.lab.tests.add(test)
-                    print(f"Debug: Added test {test.name} to lab {request.user.lab.name}")
+                    messages.info(request, f"Associated test '{test_name}' with your lab.")
 
-                messages.success(request, "Tests uploaded and associated with your lab successfully!")
-                return redirect('manage_lab') # Redirect to the lab management page
+                messages.success(request, "Excel file uploaded and processed successfully!")
+                # Fix 2: Redirect to manage_lab to preserve original UI context
+                return redirect('manage_lab')
 
             except Exception as e:
                 messages.error(request, f"Error processing Excel file: {e}")
-        else:
-            messages.error(request, "Invalid form submission.")
     else:
         form = ExcelUploadForm()
-    
-    # This view is primarily for POST requests, but if accessed via GET, it should redirect or show a form.
-    # For now, redirect to manage_lab if it's a GET request without a valid form submission.
+    return render(request, 'labmanage.html', {'form': form, 'lab': request.user.lab, 'tests': request.user.lab.tests.all(), 'excel_upload_form': form})
+
+
+@login_required
+def delete_message(request, message_id):
+    message = get_object_or_404(ContactMessage, id=message_id)
+    # Ensure only the recipient lab can delete the message
+    if message.lab and message.lab.user == request.user:
+        message.delete()
+        messages.success(request, 'Message deleted successfully.')
+    else:
+        messages.error(request, 'You are not authorized to delete this message.')
     return redirect('manage_lab')
+
+@login_required
+@user_passes_test(lambda user: user.is_staff)
+def admin_delete_message(request, message_id):
+    message = get_object_or_404(ContactMessage, id=message_id)
+    message.delete()
+    messages.success(request, 'Message deleted successfully.')
+    return redirect('view_contacts')
+    # Ensure that only the lab to whom the message was sent can delete it
+    if not (hasattr(request.user, 'lab') and message.lab == request.user.lab):
+        messages.error(request, "You are not authorized to delete this message.")
+        return redirect('manage_lab')
+
+    if request.method == 'POST':
+        message.delete()
+        messages.success(request, "Message deleted successfully.")
+        return redirect('manage_lab')
+    
+    # Optionally, you could render a confirmation page here
+    return redirect('manage_lab') # For now, just redirect back to manage_lab

@@ -16,12 +16,25 @@ class LabUserRegistrationForm(UserCreationForm):
 class TestForm(forms.ModelForm):
     class Meta:
         model = Test
-        fields = ['name', 'description', 'price', 'popularity']
+        fields = ['name', 'description', 'price'] # Removed 'popularity'
 
 class ContactForm(forms.ModelForm):
+    recipient_choice = forms.ChoiceField(choices=[], required=True, label="Send message to")
+
     class Meta:
         model = ContactMessage
-        fields = ['name', 'email', 'message']
+        fields = ['name', 'email', 'message', 'lab', 'recipient_admin']
+        widgets = {
+            'lab': forms.HiddenInput(),
+            'recipient_admin': forms.HiddenInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        labs = Lab.objects.all()
+        choices = [('admin', 'System Admin')]
+        choices.extend([(str(lab.id), lab.name) for lab in labs])
+        self.fields['recipient_choice'].choices = choices
 
 class LabForm(forms.ModelForm):
     class Meta:

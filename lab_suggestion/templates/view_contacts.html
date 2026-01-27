@@ -18,6 +18,8 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Received</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recipient</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -27,6 +29,19 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ message.email }}</td>
                                     <td class="px-6 py-4 whitespace-normal">{{ message.message }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ message.sent_at|date:"Y-m-d H:i" }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if message.lab %}
+                                            {{ message.lab.name }}
+                                        {% else %}
+                                            Admin
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <form action="{% url 'admin_delete_message' message.id %}" method="post" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="bg-red-500 text-white rounded-md px-3 py-1 hover:bg-red-600 text-sm">Delete</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 {% empty %}
                                 <tr>

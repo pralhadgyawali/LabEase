@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Django
+db.sqlite3
+
+# VS Code
+.vscode/
+
+# System files
+bash.exe.stackdump

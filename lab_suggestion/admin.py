@@ -13,9 +13,9 @@ class LabAdmin(admin.ModelAdmin):
 
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'popularity')
+    list_display = ('name', 'price') # Removed 'popularity'
     search_fields = ('name', 'description')
-    list_filter = ('popularity',)
+    # list_filter = ('popularity',) # Removed this line
 
 # You might also want to register LabTestDetail if you want to manage it directly, but the inline handles most cases.
 # admin.site.register(LabTestDetail)

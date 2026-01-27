@@ -5,7 +5,7 @@ class Test(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    popularity = models.IntegerField(default=0) # Add this line
+    # popularity = models.IntegerField(default=0) # Removed this line
 
     def __str__(self):
         return self.name
@@ -37,7 +37,13 @@ class ContactMessage(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     message = models.TextField()
+    lab = models.ForeignKey(Lab, on_delete=models.SET_NULL, null=True, blank=True)
+    recipient_admin = models.BooleanField(default=False)
     sent_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        if self.lab:
+            return f'Message to {self.lab.name} from {self.name} at {self.sent_at.strftime("%Y-%m-%d %H:%M")}'
+        elif self.recipient_admin:
+            return f'Message to Admin from {self.name} at {self.sent_at.strftime("%Y-%m-%d %H:%M")}'
         return f'Message from {self.name} at {self.sent_at.strftime("%Y-%m-%d %H:%M")}'

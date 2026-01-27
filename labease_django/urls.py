@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('', include('lab_suggestion.urls')), # Move this line before the admin path
     path('admin/', admin.site.urls),
-    path('', include('lab_suggestion.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),  # Add this
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
