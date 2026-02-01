@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat History - LabEase{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-5xl">
+    <!-- Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div>
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background-color: #2563EB;">
+                        <i class="fas fa-history text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Chat History</h1>
+                </div>
+                <p class="text-gray-600 ml-15">View your past conversations with LabEase AI Assistant</p>
+            </div>
+            <a href="{% url 'chatbot' %}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all transform hover:scale-105 shadow-md font-medium">
+                <i class="fas fa-robot mr-2"></i>New Chat
+            </a>
+        </div>
+    </div>
+    
+    {% if chat_history %}
+    <div class="space-y-6">
+        {% for chat in chat_history %}
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden">
+            <!-- Chat Header -->
+            <div class="px-6 py-4 border-b border-gray-200" style="background-color: #F3F4F6;">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: #2563EB;">
+                            <i class="fas fa-comments text-white"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Conversation</p>
+                            <p class="text-sm text-gray-500">
+                                <i class="fas fa-clock mr-1"></i>{{ chat.created_at|date:"F d, Y" }} at {{ chat.created_at|date:"H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Content -->
+            <div class="p-6 space-y-4">
+                <!-- User Message -->
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-md" style="background-color: #10B981;">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="rounded-2xl rounded-tl-none p-4 border border-gray-200" style="background-color: #F3F4F6;">
+                            <p class="text-sm font-semibold text-green-800 mb-1">You</p>
+                            <p class="text-gray-800 leading-relaxed">{{ chat.user_message }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Response -->
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-md" style="background-color: #2563EB;">
+                        <i class="fas fa-robot text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-white rounded-2xl rounded-tl-none p-4 border border-gray-200 shadow-sm">
+                            <p class="text-sm font-semibold text-blue-700 mb-1">AI Assistant</p>
+                            <p class="text-gray-800 leading-relaxed whitespace-pre-wrap">{{ chat.bot_response }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="bg-white rounded-2xl shadow-xl p-12 text-center border border-gray-100">
+        <div class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color: #F3F4F6;">
+            <i class="fas fa-comments text-blue-500 text-4xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">No Chat History</h3>
+        <p class="text-gray-600 mb-8 max-w-md mx-auto">
+            You haven't started any conversations yet. Start chatting with our AI assistant to get help finding labs and tests!
+        </p>
+        <a href="{% url 'chatbot' %}" class="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg font-semibold text-lg">
+            <i class="fas fa-robot mr-2"></i>Start New Chat
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+
+{% block title %}Register Your Lab - LabEase{% endblock %}
+
+{% block content %}
+<div class="min-h-[calc(100vh-200px)] py-12 px-4 sm:px-6 lg:px-8" style="background-color: #F3F4F6;">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header Section -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl mb-6" style="background-color: #2563EB;">
+                <i class="fas fa-hospital text-white text-2xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Register Your <span style="color: #2563EB;">Laboratory</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Join LabEase and reach more patients. Register your laboratory to start offering your services through our platform.
+            </p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+            <!-- Form Header -->
+            <div class="p-6" style="background-color: #2563EB;">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-clipboard-list text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Lab Registration Form</h2>
+                        <p class="text-blue-100 text-sm mt-1">Please fill in all the required information below</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Body -->
+            <div class="p-8">
+                <form method="post" class="space-y-8" id="registration-form">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                        <div class="flex items-start">
+                            <i class="fas fa-exclamation-circle text-red-500 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-red-800 font-semibold mb-2">Please correct the following errors:</p>
+                                <ul class="text-red-700 text-sm space-y-1">
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <li>• {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Account Information Section -->
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center mr-2" style="background-color: #2563EB;">
+                                <i class="fas fa-user text-white text-sm"></i>
+                            </div>
+                            Account Information
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Username -->
+                            <div>
+                                <label for="{{ form.username.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Username <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text"
+                                    id="{{ form.username.id_for_label }}"
+                                    name="{{ form.username.name }}"
+                                    value="{{ form.username.value|default:'' }}"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="Choose a username"
+                                    required>
+                                {% if form.username.help_text %}
+                                    <p class="mt-1 text-xs text-gray-500">{{ form.username.help_text }}</p>
+                                {% endif %}
+                                {% if form.username.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.username.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Email Address
+                                </label>
+                                <input 
+                                    type="email"
+                                    id="{{ form.email.id_for_label }}"
+                                    name="{{ form.email.name }}"
+                                    value="{{ form.email.value|default:'' }}"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="your.email@example.com">
+                                {% if form.email.help_text %}
+                                    <p class="mt-1 text-xs text-gray-500">{{ form.email.help_text }}</p>
+                                {% endif %}
+                                {% if form.email.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Password -->
+                            <div>
+                                <label for="{{ form.password1.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Password <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="password"
+                                    id="{{ form.password1.id_for_label }}"
+                                    name="{{ form.password1.name }}"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="Create a strong password"
+                                    required>
+                                {% if form.password1.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.password1.errors.0 }}</p>
+                                {% endif %}
+                                <!-- Password Requirements -->
+                                <div class="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                    <p class="text-xs font-semibold text-gray-700 mb-2">Password requirements:</p>
+                                    <ul class="text-xs text-gray-600 space-y-1">
+                                        <li class="flex items-center">
+                                            <i class="fas fa-check-circle text-gray-400 mr-2 text-xs"></i>
+                                            At least 8 characters long
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-check-circle text-gray-400 mr-2 text-xs"></i>
+                                            Cannot be too similar to your personal information
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-check-circle text-gray-400 mr-2 text-xs"></i>
+                                            Cannot be a commonly used password
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-check-circle text-gray-400 mr-2 text-xs"></i>
+                                            Cannot be entirely numeric
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Password Confirmation -->
+                            <div>
+                                <label for="{{ form.password2.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Confirm Password <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="password"
+                                    id="{{ form.password2.id_for_label }}"
+                                    name="{{ form.password2.name }}"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="Re-enter your password"
+                                    required>
+                                {% if form.password2.help_text %}
+                                    <p class="mt-1 text-xs text-gray-500">{{ form.password2.help_text }}</p>
+                                {% endif %}
+                                {% if form.password2.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.password2.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lab Information Section -->
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center mr-2" style="background-color: #0891B2;">
+                                <i class="fas fa-building text-white text-sm"></i>
+                            </div>
+                            Laboratory Information
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Lab Name -->
+                            <div>
+                                <label for="{{ form.name.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Laboratory Name <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text"
+                                    id="{{ form.name.id_for_label }}"
+                                    name="{{ form.name.name }}"
+                                    value="{{ form.name.value|default:'' }}"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="Enter your laboratory name"
+                                    required>
+                                {% if form.name.help_text %}
+                                    <p class="mt-1 text-xs text-gray-500">{{ form.name.help_text }}</p>
+                                {% endif %}
+                                {% if form.name.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Contact Phone -->
+                            <div>
+                                <label for="{{ form.contact_phone.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Contact Phone <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="tel"
+                                    id="{{ form.contact_phone.id_for_label }}"
+                                    name="{{ form.contact_phone.name }}"
+                                    value="{{ form.contact_phone.value|default:'' }}"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="01-XXXXXXX"
+                                    required>
+                                {% if form.contact_phone.help_text %}
+                                    <p class="mt-1 text-xs text-gray-500">{{ form.contact_phone.help_text }}</p>
+                                {% endif %}
+                                {% if form.contact_phone.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.contact_phone.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Contact Email -->
+                            <div>
+                                <label for="{{ form.contact_email.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Contact Email <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="email"
+                                    id="{{ form.contact_email.id_for_label }}"
+                                    name="{{ form.contact_email.name }}"
+                                    value="{{ form.contact_email.value|default:'' }}"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    placeholder="contact@yourlab.com"
+                                    required>
+                                {% if form.contact_email.help_text %}
+                                    <p class="mt-1 text-xs text-gray-500">{{ form.contact_email.help_text }}</p>
+                                {% endif %}
+                                {% if form.contact_email.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.contact_email.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+
+                            <!-- Address -->
+                            <div class="md:col-span-2">
+                                <label for="{{ form.address.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Laboratory Address <span class="text-red-500">*</span>
+                                </label>
+                                <textarea 
+                                    id="{{ form.address.id_for_label }}"
+                                    name="{{ form.address.name }}"
+                                    rows="3"
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                                    placeholder="Enter complete address including street, city, and state"
+                                    required>{{ form.address.value|default:'' }}</textarea>
+                                {% if form.address.help_text %}
+                                    <p class="mt-1 text-xs text-gray-500">{{ form.address.help_text }}</p>
+                                {% endif %}
+                                {% if form.address.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ form.address.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <label class="flex items-start cursor-pointer">
+                            <input type="checkbox" name="terms" class="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500" required>
+                            <span class="ml-3 text-sm text-gray-700">
+                                I agree to the <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold underline">Terms and Conditions</a> and <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold underline">Privacy Policy</a> of LabEase
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+                        <button type="submit" class="w-full px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all transform hover:scale-[1.02] shadow-lg font-semibold text-lg flex items-center justify-center">
+                            <i class="fas fa-user-plus mr-2"></i>Register Laboratory
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Login Link -->
+                <div class="mt-8 text-center pt-6 border-t border-gray-200">
+                    <p class="text-gray-600">
+                        Already have an account? 
+                        <a href="{% url 'login' %}" class="text-blue-600 hover:text-blue-700 font-semibold">
+                            Login here
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background-color: #2563EB;">
+                    <i class="fas fa-users text-white text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Reach More Patients</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">Connect with thousands of patients looking for medical tests in your area.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background-color: #0891B2;">
+                    <i class="fas fa-chart-line text-white text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Grow Your Business</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">Increase your lab's visibility and bookings through our platform.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style="background-color: #10B981;">
+                    <i class="fas fa-shield-alt text-white text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Secure & Reliable</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">Your data is protected with enterprise-grade security measures.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Password strength indicator
+    const passwordInput = document.getElementById('{{ form.password1.id_for_label }}');
+    const passwordConfirm = document.getElementById('{{ form.password2.id_for_label }}');
+    
+    if (passwordInput && passwordConfirm) {
+        passwordConfirm.addEventListener('input', function() {
+            if (passwordInput.value !== passwordConfirm.value) {
+                passwordConfirm.setCustomValidity('Passwords do not match');
+            } else {
+                passwordConfirm.setCustomValidity('');
+            }
+        });
+    }
+</script>
+{% endblock %}

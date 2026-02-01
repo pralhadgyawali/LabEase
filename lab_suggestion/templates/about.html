@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - LabEase{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            About <span class="text-blue-600">LabEase</span>
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Your trusted partner in finding medical laboratories and tests
+        </p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto">
+        <!-- Mission Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background-color: #2563EB;">
+                    <i class="fas fa-bullseye text-white text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Our Mission</h2>
+            </div>
+            <p class="text-gray-700 leading-relaxed text-lg">
+                Welcome to LabEase, your number one source for finding and registering medical laboratory tests. We're dedicated to giving you the very best of service, with a focus on dependability, customer service, and uniqueness.
+            </p>
+        </div>
+
+        <!-- Story Section -->
+        <div class="rounded-2xl shadow-xl p-8 mb-8 border border-gray-200" style="background-color: #F3F4F6;">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background-color: #0891B2;">
+                    <i class="fas fa-book-open text-white text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Our Story</h2>
+            </div>
+            <p class="text-gray-700 leading-relaxed text-lg mb-4">
+                Founded in 2024, LabEase has come a long way from its beginnings. When we first started out, our passion for making medical testing more accessible drove us to do intense research, and gave us the impetus to turn hard work and inspiration into a booming online platform.
+            </p>
+            <p class="text-gray-700 leading-relaxed text-lg">
+                We now serve customers all over the country, and are thrilled to be a part of the innovative, patient-focused wing of the medical industry. We hope you enjoy our services as much as we enjoy offering them to you.
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-lg flex items-center justify-center mb-4" style="background-color: #2563EB;">
+                    <i class="fas fa-search text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Easy Search</h3>
+                <p class="text-gray-600">Find the right medical tests and labs quickly with our intuitive search system.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-lg flex items-center justify-center mb-4" style="background-color: #0891B2;">
+                    <i class="fas fa-robot text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">AI-Powered</h3>
+                <p class="text-gray-600">Get intelligent recommendations based on your symptoms using advanced AI technology.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-lg flex items-center justify-center mb-4" style="background-color: #10B981;">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Trusted Labs</h3>
+                <p class="text-gray-600">Connect with verified and trusted medical laboratories in your area.</p>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="rounded-2xl shadow-xl p-8 text-center text-white" style="background-color: #2563EB;">
+            <h2 class="text-3xl font-bold mb-4">Have Questions?</h2>
+            <p class="text-blue-100 mb-6 text-lg">
+                If you have any questions or comments, please don't hesitate to contact us. We're here to help!
+            </p>
+            <a href="{% url 'contact_page' %}" class="inline-flex items-center px-8 py-3 bg-white text-blue-600 rounded-xl font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+                <i class="fas fa-envelope mr-2"></i>Contact Us
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
