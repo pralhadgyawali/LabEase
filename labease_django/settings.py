@@ -146,7 +146,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465  # SSL port (alternative to 587)
 EMAIL_USE_SSL = True  # Use SSL instead of TLS
 EMAIL_USE_TLS = False  # Disable TLS when using SSL
-
+#email app credintials
 
 # For debugging, use console backend (emails will show in terminal):
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
