@@ -1,0 +1,60 @@
+BOOKING CONFIRMATION - LabEase
+================================
+
+Hello {{ user_name }},
+
+Your booking has been successfully confirmed!
+
+BOOKING ID: {{ booking_id }}
+(Save this ID - you'll need it to track or update your booking)
+
+----------------------------------------
+TEST INFORMATION
+----------------------------------------
+Test Name: {{ test.name }}
+{% if test.description %}Description: {{ test.description|truncatewords:20 }}
+{% endif %}{% if test.price %}Price: Rs. {{ test.price }}
+{% endif %}
+
+----------------------------------------
+LAB INFORMATION
+----------------------------------------
+Lab Name: {{ lab.name }}
+Address: {{ lab.address }}
+City: {{ lab.city }}, {{ lab.state }}
+{% if lab.contact_email %}Email: {{ lab.contact_email }}
+{% endif %}{% if lab.contact_phone %}Phone: {{ lab.contact_phone }}
+{% endif %}
+
+----------------------------------------
+YOUR BOOKING DETAILS
+----------------------------------------
+Name: {{ user_name }}
+Email: {{ booking.email }}
+Preferred Test Date: {{ booking.booking_date|date:"M d, Y" }} at {{ booking.booking_date|time:"h:i A" }}
+Status: Booked
+{% if booking.notes %}Notes: {{ booking.notes }}
+{% endif %}
+
+----------------------------------------
+IMPORTANT
+----------------------------------------
+The lab will contact you at {{ booking.email }} to confirm your appointment. 
+Please check your spam/junk folder if you don't receive their email.
+
+WHAT HAPPENS NEXT?
+1. Lab Review - The lab will review your booking
+2. Confirmation - You'll receive a confirmation from the lab
+3. Track - You can track your booking status anytime
+4. Proceed - Visit the lab on your scheduled date for the test
+
+MANAGE YOUR BOOKING
+You can check your booking status, update the date, or cancel at:
+http://127.0.0.1:8000/check-booking-status/
+
+----------------------------------------
+
+This is an automated email. Please do not reply to this email address.
+If you have any questions, please contact the lab directly.
+
+© 2026 LabEase. All rights reserved.

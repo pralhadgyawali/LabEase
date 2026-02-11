@@ -91,7 +91,7 @@
                     
                     <!-- Card Footer -->
                     <div class="px-6 pb-6">
-                        <a href="{% url 'contact_page' %}?test_name={{ item.test_name|urlencode }}&lab_name={{ item.lab_name|urlencode }}&booking=true" 
+                        <a href="{% url 'book_test' item.test_id item.lab_id %}" 
                            class="block w-full py-2.5 text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-md text-center"
                            style="background-color: #2563EB;"
                            onmouseover="this.style.backgroundColor='#1D4ED8'"

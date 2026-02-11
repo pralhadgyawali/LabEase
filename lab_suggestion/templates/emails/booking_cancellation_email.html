@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Cancelled - LabEase</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .greeting {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .warning-message {
+            background-color: #FEE2E2;
+            border-left: 4px solid #EF4444;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #991B1B;
+        }
+        .booking-id-box {
+            background-color: #FEF2F2;
+            border: 2px solid #EF4444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .booking-id-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .booking-id {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            color: #EF4444;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #E5E7EB;
+            padding-bottom: 8px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+        }
+        .detail-value {
+            color: #666;
+            text-align: right;
+        }
+        .info-box {
+            background-color: #EFF6FF;
+            border-left: 4px solid #3B82F6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #1E40AF;
+        }
+        .footer {
+            background-color: #F9FAFB;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #E5E7EB;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>✗ Booking Cancelled</h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">
+                Hello <strong>{{ user_name }}</strong>,
+            </div>
+
+            <div class="warning-message">
+                <strong>✓ Your booking has been cancelled.</strong> This action cannot be undone.
+            </div>
+
+            <!-- Booking ID -->
+            <div class="booking-id-box">
+                <div class="booking-id-label">Cancelled Booking ID</div>
+                <div class="booking-id">{{ booking_id }}</div>
+            </div>
+
+            <!-- Cancelled Information -->
+            <div class="section">
+                <div class="section-title">Cancelled Booking Details</div>
+                <div class="detail-row">
+                    <span class="detail-label">Test:</span>
+                    <span class="detail-value"><strong>{{ test.name }}</strong></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Lab:</span>
+                    <span class="detail-value"><strong>{{ lab.name }}</strong></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Scheduled Date:</span>
+                    <span class="detail-value">{{ booking.booking_date|date:"M d, Y" }} at {{ booking.booking_date|time:"h:i A" }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value"><strong style="color: #EF4444;">Cancelled</strong></span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>ℹ Note:</strong> If you would like to reschedule this test, you can book a new appointment anytime through LabEase.
+            </div>
+
+            <!-- Contact Info -->
+            <div class="section" style="background-color: #F3F4F6; padding: 15px; border-radius: 5px;">
+                <div style="font-weight: bold; margin-bottom: 10px;">Need Help?</div>
+                <div style="font-size: 13px; color: #333;">
+                    If you cancelled this booking by mistake or have questions, please contact the lab:
+                </div>
+                {% if lab.contact_phone %}
+                <div style="margin-top: 8px; font-size: 13px;">
+                    <strong>Phone:</strong> <a href="tel:{{ lab.contact_phone }}" style="color: #3B82F6; text-decoration: none;">{{ lab.contact_phone }}</a>
+                </div>
+                {% endif %}
+                {% if lab.contact_email %}
+                <div style="font-size: 13px;">
+                    <strong>Email:</strong> <a href="mailto:{{ lab.contact_email }}" style="color: #3B82F6; text-decoration: none;">{{ lab.contact_email }}</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>LabEase - Your Health, Our Priority</strong></p>
+            <p>This is an automated email. Please do not reply to this email address.</p>
+            <p style="margin-top: 15px; color: #999;">© 2026 LabEase. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

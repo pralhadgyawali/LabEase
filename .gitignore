@@ -1,8 +1,12 @@
 # Python
 __pycache__/
 *.pyc
-*.sqlites3
+*.sqlite3
 *.log
+
+# Virtual Environment
+venv/
+env/
 
 # Django
 db.sqlite3
@@ -12,11 +16,7 @@ staticfiles/
 
 # VS Code
 .vscode/
-env/
 
 # System files
 bash.exe.stackdump
-
-#os
 .DS_Store
-

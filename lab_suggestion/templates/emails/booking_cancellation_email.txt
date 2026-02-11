@@ -1,0 +1,24 @@
+BOOKING CANCELLED - LabEase
+============================
+
+Hello {{ user_name }},
+
+Your booking has been cancelled successfully.
+
+CANCELLED BOOKING ID: {{ booking_id }}
+
+Cancelled Booking Details:
+- Test: {{ test.name }}
+- Lab: {{ lab.name }}
+- Scheduled Date: {{ booking.booking_date|date:"M d, Y" }} at {{ booking.booking_date|time:"h:i A" }}
+- Status: Cancelled
+
+IMPORTANT: This action cannot be undone. If you would like to reschedule this test, you can book a new appointment through LabEase.
+
+NEED HELP?
+If you cancelled this booking by mistake or have questions, please contact the lab:
+{% if lab.contact_phone %}Phone: {{ lab.contact_phone }}
+{% endif %}{% if lab.contact_email %}Email: {{ lab.contact_email }}
+{% endif %}
+
+© 2026 LabEase. All rights reserved.

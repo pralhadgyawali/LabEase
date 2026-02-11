@@ -70,6 +70,9 @@
                         <a href="{% url 'ai_recommendations' %}" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">
                             Recommendations
                         </a>
+                        <a href="{% url 'check_booking_status' %}" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">
+                            Check Status
+                        </a>
                     {% endif %}
                     
                     {% if user.is_authenticated %}
@@ -156,6 +159,7 @@
                         <a href="{% url 'about_page' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">About</a>
                         <a href="{% url 'contact_page' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">Contact</a>
                         <a href="{% url 'ai_recommendations' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">Recommendations</a>
+                        <a href="{% url 'check_booking_status' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">Check Status</a>
                     {% endif %}
                     {% if user.is_authenticated %}
                         <form action="{% url 'logout' %}" method="post" class="px-4">

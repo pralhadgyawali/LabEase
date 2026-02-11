@@ -1,0 +1,20 @@
+BOOKING UPDATED - LabEase
+==========================
+
+Hello {{ user_name }},
+
+Your booking has been updated successfully!
+
+BOOKING ID: {{ booking_id }}
+
+Updated Booking Details:
+- Test: {{ test.name }}
+- Lab: {{ lab.name }}
+- New Preferred Date: {{ booking.booking_date|date:"M d, Y" }} at {{ booking.booking_date|time:"h:i A" }}
+- Status: Booked
+
+The lab has been notified of your updates and may contact you if needed.
+
+If you have any questions, please contact the lab directly.
+
+© 2026 LabEase. All rights reserved.

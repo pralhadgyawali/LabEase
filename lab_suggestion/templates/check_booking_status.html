@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block title %}Check Booking Status - LabEase{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-2 mb-2">
+                <i class="fas fa-search text-blue-600 text-2xl"></i>
+                <h1 class="text-3xl font-bold text-gray-800">Check Booking Status</h1>
+            </div>
+            <p class="text-gray-600">Enter your Booking ID and Email to view your booking details</p>
+        </div>
+
+        <!-- Search Form Card -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 mb-8">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 sm:px-8 py-6">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <i class="fas fa-ticket-alt mr-3"></i>Search Your Booking
+                </h2>
+            </div>
+
+            <form method="post" class="px-6 sm:px-8 py-8">
+                {% csrf_token %}
+
+                <!-- Booking ID Field -->
+                <div class="mb-6">
+                    <label for="booking_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-ticket-alt text-blue-600 mr-2"></i>Booking ID <span class="text-red-600">*</span>
+                    </label>
+                    <input type="text" 
+                           name="booking_id" 
+                           id="booking_id" 
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition-colors font-mono"
+                           placeholder="e.g., a1b2c3d4-e5f6-7890-abcd"
+                           required>
+                    <p class="text-gray-600 text-sm mt-1">You received this ID when you booked your test</p>
+                </div>
+
+                <!-- Email Field -->
+                <div class="mb-6">
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-envelope text-blue-600 mr-2"></i>Email Address <span class="text-red-600">*</span>
+                    </label>
+                    <input type="email" 
+                           name="email" 
+                           id="email" 
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none transition-colors"
+                           placeholder="your.email@example.com"
+                           required>
+                    <p class="text-gray-600 text-sm mt-1">Enter the email used for booking</p>
+                </div>
+
+                <!-- Error Message -->
+                {% if error_message %}
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded mb-6">
+                    <p class="text-sm text-red-800">
+                        <i class="fas fa-times-circle mr-2"></i>
+                        {{ error_message }}
+                    </p>
+                </div>
+                {% endif %}
+
+                <!-- Info Box -->
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-6">
+                    <p class="text-sm text-blue-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>Tip:</strong> Both your Booking ID and Email must match exactly to view your booking.
+                    </p>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                    <i class="fas fa-search mr-2"></i>Search Booking
+                </button>
+            </form>
+        </div>
+
+        <!-- Booking Details (if found) -->
+        {% if booking %}
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+            <!-- Status Header -->
+            <div class="bg-gradient-to-r from-green-600 to-green-700 px-6 sm:px-8 py-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-white text-3xl mr-3"></i>
+                        <div>
+                            <h2 class="text-2xl font-bold text-white">Booking Found</h2>
+                            <p class="text-green-100">Status: <span class="font-bold">{{ booking.get_status_display }}</span></p>
+                        </div>
+                    </div>
+                    <span class="px-4 py-2 bg-white text-green-600 rounded-full font-bold text-sm">ID: {{ booking.booking_id }}</span>
+                </div>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="px-6 sm:px-8 py-8 space-y-6">
+                <!-- Test Information -->
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-vial text-blue-600 mr-3"></i>Test Information
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Test Name:</span>
+                            <span class="font-semibold text-gray-800">{{ booking.test.name }}</span>
+                        </div>
+                        {% if booking.test.description %}
+                        <div class="flex items-start justify-between">
+                            <span class="text-gray-600">Description:</span>
+                            <span class="text-gray-700 text-right max-w-xs">{{ booking.test.description }}</span>
+                        </div>
+                        {% endif %}
+                        {% if booking.test.price %}
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600 font-medium">Price:</span>
+                            <span class="text-lg font-bold text-green-600">Rs. {{ booking.test.price }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Lab Information -->
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-building text-blue-600 mr-3"></i>Lab Information
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Lab Name:</span>
+                            <span class="font-semibold text-gray-800">{{ booking.lab.name }}</span>
+                        </div>
+                        <div class="flex items-start justify-between">
+                            <span class="text-gray-600">Address:</span>
+                            <span class="text-gray-700 text-right max-w-xs">{{ booking.lab.address }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">City:</span>
+                            <span class="text-gray-700">{{ booking.lab.city }}, {{ booking.lab.state }}</span>
+                        </div>
+                        {% if booking.lab.contact_email %}
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Email:</span>
+                            <a href="mailto:{{ booking.lab.contact_email }}" class="text-blue-600 hover:underline">{{ booking.lab.contact_email }}</a>
+                        </div>
+                        {% endif %}
+                        {% if booking.lab.contact_phone %}
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Phone:</span>
+                            <a href="tel:{{ booking.lab.contact_phone }}" class="text-blue-600 hover:underline">{{ booking.lab.contact_phone }}</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Booking Details -->
+                <div class="border-b border-gray-200 pb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-calendar text-blue-600 mr-3"></i>Booking Details
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Booking ID:</span>
+                            <span class="font-mono font-semibold text-gray-800">{{ booking.booking_id }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Name:</span>
+                            <span class="font-semibold text-gray-800">{{ booking.name }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Email:</span>
+                            <span class="font-semibold text-gray-800">{{ booking.email }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Preferred Test Date:</span>
+                            <span class="text-gray-800">{{ booking.booking_date|date:"M d, Y" }} at {{ booking.booking_date|time:"h:i A" }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Booked On:</span>
+                            <span class="text-gray-700">{{ booking.booked_at|date:"M d, Y" }} at {{ booking.booked_at|time:"h:i A" }}</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-200">
+                            <span class="text-gray-600 font-medium">Current Status:</span>
+                            {% if booking.status == 'booked' %}
+                                <span class="px-4 py-2 bg-green-100 text-green-800 rounded-full font-bold">{{ booking.get_status_display }}</span>
+                            {% elif booking.status == 'cancelled' %}
+                                <span class="px-4 py-2 bg-red-100 text-red-800 rounded-full font-bold">{{ booking.get_status_display }}</span>
+                            {% else %}
+                                <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-bold">{{ booking.get_status_display }}</span>
+                            {% endif %}
+                        </div>
+                        {% if booking.notes %}
+                        <div class="flex items-start justify-between pt-3 border-t border-gray-200">
+                            <span class="text-gray-600">Notes:</span>
+                            <span class="text-gray-700 text-right max-w-xs">{{ booking.notes }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                {% if booking.status == 'booked' %}
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a href="{% url 'update_booking' booking.booking_id %}" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg text-center transition-colors flex items-center justify-center">
+                        <i class="fas fa-edit mr-2"></i>Update Booking
+                    </a>
+                    <a href="{% url 'cancel_booking' booking.booking_id %}" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg text-center transition-colors flex items-center justify-center">
+                        <i class="fas fa-times-circle mr-2"></i>Cancel Booking
+                    </a>
+                </div>
+                {% elif booking.status == 'cancelled' %}
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                    <p class="text-sm text-red-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>This booking has been cancelled.</strong> If you'd like to book the test again, please start a new booking.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-50 px-6 sm:px-8 py-6 border-t border-gray-200">
+                <a href="{% url 'index' %}" class="text-blue-600 hover:underline font-medium flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Home
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

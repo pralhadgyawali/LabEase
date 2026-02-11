@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v=@76ku)13h6^f#-p-gn=9)d2slxoid*=^t-*9m00c*cbgmwi+'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-v=@76ku)13h6^f#-p-gn=9)d2slxoid*=^t-*9m00c*cbgmwi+')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -125,3 +130,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Add this at the end of the file
 LOGIN_REDIRECT_URL = '/lab/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Caching Configuration - Store session test selections
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'labease-cache',
+    }
+}
+
+# Email Configuration
+# Use SMTP Backend with Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465  # SSL port (alternative to 587)
+EMAIL_USE_SSL = True  # Use SSL instead of TLS
+EMAIL_USE_TLS = False  # Disable TLS when using SSL
+EMAIL_HOST_USER = 'pralhadlearns@gmail.com'
+EMAIL_HOST_PASSWORD = 'wgsexnzkdcizrnbd'
+DEFAULT_FROM_EMAIL = 'pralhadlearns@gmail.com'
+
+# For debugging, use console backend (emails will show in terminal):
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

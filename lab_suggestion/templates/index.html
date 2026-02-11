@@ -26,17 +26,19 @@
         </div>
 
         <!-- Search Form - Prominent & Clean -->
-        <div class="max-w-3xl mx-auto mb-8">
+        <div class="max-w-3xl mx-auto mb-8 relative">
             <form action="{% url 'search_labs' %}" method="get" class="relative">
-                <div class="relative flex flex-col sm:flex-row gap-0 bg-white rounded-2xl shadow-2xl overflow-hidden">
-                    <div class="flex-1 flex items-center bg-white px-5 sm:px-6">
+                <div class="relative flex flex-col sm:flex-row gap-0 bg-white rounded-2xl shadow-2xl overflow-visible">
+                    <div class="flex-1 flex items-center bg-white px-5 sm:px-6 relative">
                         <i class="fas fa-search text-gray-400 text-xl mr-4"></i>
                         <input 
                             type="text" 
                             name="query"
-                            placeholder="Search for a test (e.g., Complete Blood Count, X-Ray, MRI)" 
+                            id="testSearchInput"
+                            placeholder="Search for a test (e.g., Blood Test, Glucose Test)" 
                             class="flex-1 py-5 sm:py-6 text-gray-900 placeholder-gray-400 focus:outline-none text-lg font-medium"
                             value=""
+                            autocomplete="off"
                             required>
                     </div>
                     <button 
@@ -46,24 +48,24 @@
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
+                <!-- Autocomplete Dropdown - Positioned absolutely outside -->
+                <div id="autocompleteResults" class="absolute top-full left-0 right-0 bg-white border border-gray-200 border-t-0 shadow-lg rounded-b-2xl hidden max-h-96 overflow-y-auto z-50 mt-0"></div>
             </form>
         </div>
 
-        <!-- Popular Tags - Subtle & Clean -->
+        <!-- Popular Tags - Dynamic from Database -->
         <div class="flex flex-wrap justify-center items-center gap-3 max-w-2xl mx-auto">
-            <span class="text-white/80 text-sm font-medium">Popular:</span>
-            <a href="{% url 'search_labs' %}?query=Complete Blood Count" 
-               class="px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium hover:bg-white/25 transition-all duration-200 border border-white/20">
-                Complete Blood Count
-            </a>
-            <a href="{% url 'search_labs' %}?query=Glucose Test" 
-               class="px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium hover:bg-white/25 transition-all duration-200 border border-white/20">
-                Glucose Test
-            </a>
-            <a href="{% url 'search_labs' %}?query=Lipid Panel" 
-               class="px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium hover:bg-white/25 transition-all duration-200 border border-white/20">
-                Lipid Panel
-            </a>
+            {% if popular_tests %}
+                <span class="text-white/80 text-sm font-medium">Popular:</span>
+                {% for test in popular_tests|slice:":3" %}
+                <a href="{% url 'search_labs' %}?query={{ test.name|urlencode }}" 
+                   class="px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium hover:bg-white/25 transition-all duration-200 border border-white/20">
+                    {{ test.name }}
+                </a>
+                {% endfor %}
+            {% else %}
+                <span class="text-white/80 text-sm font-medium">Browse our medical tests →</span>
+            {% endif %}
         </div>
     </div>
 
@@ -227,35 +229,8 @@
                 {% endfor %}
             </div>
             {% else %}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background-color: #2563EB;">
-                        <i class="fas fa-vial text-white text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Complete Blood Count</h3>
-                    <p class="text-gray-600 font-semibold">Rs. 45</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background-color: #0891B2;">
-                        <i class="fas fa-vial text-white text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Glucose Test</h3>
-                    <p class="text-gray-600 font-semibold">Rs. 40</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background-color: #10B981;">
-                        <i class="fas fa-vial text-white text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Lipid Panel</h3>
-                    <p class="text-gray-600 font-semibold">Rs. 50</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
-                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background-color: #2563EB;">
-                        <i class="fas fa-vial text-white text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Thyroid Test</h3>
-                    <p class="text-gray-600 font-semibold">Rs. 60</p>
-                </div>
+            <div class="text-center py-12">
+                <p class="text-gray-600 text-lg">No tests available yet. Check back soon!</p>
             </div>
             {% endif %}
         </div>
@@ -339,4 +314,76 @@
         animation: fade-in 0.8s ease-out;
     }
 </style>
+
+<script>
+// Test Autocomplete Search
+const testSearchInput = document.getElementById('testSearchInput');
+const autocompleteResults = document.getElementById('autocompleteResults');
+
+// Hide autocomplete when clicking outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#testSearchInput') && !e.target.closest('#autocompleteResults')) {
+        autocompleteResults.classList.add('hidden');
+    }
+});
+
+// Handle input and show suggestions
+testSearchInput.addEventListener('input', debounce(async (e) => {
+    const query = e.target.value.trim();
+    
+    console.log('Search query:', query); // Debug
+    
+    if (query.length < 1) {
+        autocompleteResults.classList.add('hidden');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/search-tests/?q=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        
+        console.log('API Response:', data); // Debug
+        
+        if (data.results && data.results.length > 0) {
+            autocompleteResults.innerHTML = data.results.map(test => `
+                <div class="px-4 py-3 border-b border-gray-100 hover:bg-blue-50 cursor-pointer transition-colors text-gray-900 font-medium" 
+                     onclick="selectTest('${test.name}', event)">
+                    ${test.name}
+                </div>
+            `).join('');
+            autocompleteResults.classList.remove('hidden');
+        } else {
+            autocompleteResults.innerHTML = '<div class="px-4 py-3 text-gray-500 text-center text-sm">No tests found</div>';
+            autocompleteResults.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        autocompleteResults.innerHTML = '<div class="px-4 py-3 text-red-500 text-center text-sm">Error loading results</div>';
+    }
+}, 300));
+
+// Debounce function to limit API calls
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Select test from autocomplete
+function selectTest(testName, event) {
+    if (event) event.stopPropagation();
+    testSearchInput.value = testName;
+    autocompleteResults.classList.add('hidden');
+}
+
+// Allow Enter key to search
+testSearchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        testSearchInput.form.submit();
+    }
+});
+</script>
 {% endblock %}
