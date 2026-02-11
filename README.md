@@ -324,8 +324,6 @@ This project is open source and available for use.
 For testing purposes, sample lab accounts are available. See **[LOGIN_CREDENTIALS.md](LOGIN_CREDENTIALS.md)** for all login information.
 
 **Quick Access:**
-- Sample Lab Username: `citylab_kathmandu`
-- Password: `sample123`
 - Admin: Create with `python manage.py createsuperuser`
 
 ## Support
