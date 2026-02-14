@@ -9,6 +9,15 @@ from django.contrib.auth import authenticate, login
 from django.forms import modelformset_factory # Import modelformset_factory
 
 def register(request):
+    """
+    Handle user registration for new lab accounts.
+    
+    GET: Display registration form
+    POST: Process registration form and create new user account
+    
+    Returns:
+        Rendered registration page or redirect to login on success
+    """
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -18,12 +27,35 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-# Create your views here.
 def index(request):
+    """
+    Display homepage with popular tests.
+    
+    Fetches the top 5 most recently added tests from the database
+    and displays them on the homepage.
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        Rendered index page with popular tests list
+    """
     popular_tests = Test.objects.order_by('-name')[:5]  # Order by name for now
     return render(request, 'index.html', {'popular_tests': popular_tests})
 
 def admin_login_view(request):
+    """
+    Handle admin user authentication and login.
+    
+    GET: Display admin login form
+    POST: Authenticate credentials and create session
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        Rendered login page or redirect to admin dashboard on success
+    """
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -39,9 +71,32 @@ def admin_login_view(request):
 
 
 def about_page(request):
+    """
+    Display the about page with information about the lab testing platform.
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        Rendered about page
+    """
     return render(request, 'about.html')
 
 def contact_page(request):
+    """
+    Handle contact form submission for user inquiries.
+    
+    GET: Display contact form with available labs and admin option
+    POST: Process contact form and save message to database
+    
+    Allows users to send messages either to system admin or specific labs.
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        Rendered contact page or redirect to index on successful submission
+    """
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
