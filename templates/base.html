@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LabEase{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563EB;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .group:hover .dropdown-menu,
+        .group:focus-within .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        /* Ensure dropdown stays open when hovering over it */
+        .dropdown-menu:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen" style="background-color: #F3F4F6;">
+    <header class="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="{% url 'index' %}" class="flex items-center space-x-2 group">
+                    <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform shadow-md">
+                        <i class="fas fa-vial text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-blue-600">LabEase</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-1">
+                    {% if request.resolver_match.url_name != 'admin_lab_list' and request.resolver_match.url_name != 'manage_lab' %}
+                        <a href="{% url 'index' %}" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                        <a href="{% url 'about_page' %}" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">About</a>
+                        <a href="{% url 'contact_page' %}" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                        <a href="{% url 'ai_recommendations' %}" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">
+                            Recommendations
+                        </a>
+                        <a href="{% url 'check_booking_status' %}" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium">
+                            Check Status
+                        </a>
+                    {% endif %}
+                    
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <div class="relative group">
+                                <button class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium flex items-center">
+                                    {{ user.username }}
+                                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                </button>
+                                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 border border-gray-100">
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% elif user.lab %}
+                            <div class="relative group">
+                                <button class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium flex items-center">
+                                    <span class="mr-2">👤</span>{{ user.username }}
+                                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                </button>
+                                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 border border-gray-100">
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="relative group">
+                                <button class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium flex items-center">
+                                    {{ user.username }}
+                                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                </button>
+                                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 border border-gray-100">
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <!-- Professional Login Dropdown -->
+                        <div class="relative group" id="login-dropdown">
+                            <button type="button" class="nav-link px-4 py-2 text-gray-700 hover:text-blue-600 font-medium flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg">
+                                Login
+                                <i class="fas fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
+                            </button>
+                            <div class="dropdown-menu absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-2xl py-2 border border-gray-200 z-50 min-w-[200px]">
+                                <a href="{% url 'login' %}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                                    Lab Login
+                                </a>
+                                <a href="{% url 'admin_login' %}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors">
+                                    Admin Login
+                                </a>
+                                <div class="border-t border-gray-200 my-1"></div>
+                                <a href="{% url 'lab_registration' %}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors font-medium">
+                                    Register Lab
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-gray-200 mt-2">
+                <div class="flex flex-col space-y-2 pt-4">
+                    {% if request.resolver_match.url_name != 'admin_lab_list' and request.resolver_match.url_name != 'manage_lab' %}
+                        <a href="{% url 'index' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">Home</a>
+                        <a href="{% url 'about_page' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">About</a>
+                        <a href="{% url 'contact_page' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">Contact</a>
+                        <a href="{% url 'ai_recommendations' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">Recommendations</a>
+                        <a href="{% url 'check_booking_status' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">Check Status</a>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'logout' %}" method="post" class="px-4">
+                            {% csrf_token %}
+                            <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg">
+                            Lab Login
+                        </a>
+                        <a href="{% url 'admin_login' %}" class="px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg">
+                            Admin Login
+                        </a>
+                        <a href="{% url 'lab_registration' %}" class="mx-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-center hover:bg-blue-700 transition-colors">Register Lab</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="min-h-[calc(100vh-200px)]">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-white mt-16" style="background-color: #111827;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <span class="text-2xl font-bold">LabEase</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Your trusted partner for finding medical laboratories and tests. Making healthcare accessible, one search at a time.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'index' %}" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{% url 'about_page' %}" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="{% url 'contact_page' %}" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="{% url 'ai_recommendations' %}" class="text-gray-400 hover:text-white transition-colors">AI Recommendations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">© 2024 LabEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating AI Chatbot Icon -->
+    <div id="chatbot-widget" class="fixed bottom-6 right-6 z-50" data-api-url="{% url 'chatbot_api' %}">
+        <!-- Chat Icon Button -->
+        <button id="chatbot-toggle" 
+                class="w-16 h-16 bg-blue-600 text-white rounded-full shadow-2xl hover:bg-blue-700 hover:shadow-blue-600/50 transform hover:scale-110 transition-all duration-300 flex items-center justify-center group relative">
+            <i class="fas fa-robot text-2xl group-hover:scale-110 transition-transform"></i>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-cyan-500 rounded-full animate-pulse"></span>
+        </button>
+        
+        <!-- Chat Widget Modal -->
+        <div id="chatbot-modal" class="hidden fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col transform transition-all duration-300">
+            <!-- Chat Header -->
+            <div class="bg-blue-600 text-white p-4 rounded-t-2xl flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-robot text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg">LabEase AI Assistant</h3>
+                        <p class="text-xs text-white/80">Online • Ready to help</p>
+                    </div>
+                </div>
+                <button id="chatbot-close" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Chat Messages Container -->
+            <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4">
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-bold">AI</span>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm max-w-[80%] border border-gray-200">
+                        <p class="text-gray-800 text-sm">Hello! I'm LabEase AI Assistant. I can help you find labs, search for tests, get price information, and recommend tests based on symptoms. How can I assist you today?</p>
+                        <p class="text-gray-600 text-xs mt-2">💡 Tip: Click on the suggestions below to quickly ask questions!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Suggestions -->
+            <div id="chatbot-suggestions" class="px-4 py-2 bg-white border-t border-gray-200">
+                <p class="text-xs font-semibold text-gray-600 mb-2">Try asking:</p>
+                <div id="suggestions-container" class="flex flex-wrap gap-2">
+                    <button onclick="sendChatbotSuggestion('What tests do you have?')" 
+                            class="px-2 py-1 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer text-xs border border-blue-200">
+                        What tests?
+                    </button>
+                    <button onclick="sendChatbotSuggestion('Find labs near me')" 
+                            class="px-2 py-1 bg-cyan-50 text-cyan-700 rounded-lg hover:bg-cyan-100 transition-colors cursor-pointer text-xs border border-cyan-200">
+                        Find labs
+                    </button>
+                    <button onclick="sendChatbotSuggestion('What is the price of blood test?')" 
+                            class="px-2 py-1 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer text-xs border border-blue-200">
+                        Test prices
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="p-4 bg-white border-t border-gray-200 rounded-b-2xl">
+                <form id="chatbot-form" class="flex space-x-2">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="text" id="chatbot-input" placeholder="Type your message..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                           required>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuButton.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const loginDropdown = document.getElementById('login-dropdown');
+            if (loginDropdown && !loginDropdown.contains(event.target)) {
+                // Dropdown will close automatically via CSS when not hovered
+            }
+        });
+
+        // Chatbot Widget Functionality
+        let chatbotSessionId = localStorage.getItem('chatbot_session_id') || generateChatbotSessionId();
+        if (!localStorage.getItem('chatbot_session_id')) {
+            localStorage.setItem('chatbot_session_id', chatbotSessionId);
+        }
+        
+        function generateChatbotSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotModal = document.getElementById('chatbot-modal');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotForm = document.getElementById('chatbot-form');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        
+        // Toggle chatbot modal
+        if (chatbotToggle && chatbotModal) {
+            chatbotToggle.addEventListener('click', () => {
+                chatbotModal.classList.toggle('hidden');
+            });
+            
+            if (chatbotClose) {
+                chatbotClose.addEventListener('click', () => {
+                    chatbotModal.classList.add('hidden');
+                });
+            }
+        }
+        
+        function parseMarkdown(text) {
+            // Escape HTML first to prevent XSS
+            let html = escapeHtml(text);
+            
+            // Convert **text** to <strong>text</strong>
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert *text* to <em>text</em> (italic)
+            html = html.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em>$1</em>');
+            
+            // Convert line breaks to <br>
+            html = html.replace(/\n/g, '<br>');
+            
+            return html;
+        }
+        
+        function addChatbotMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex items-start space-x-3 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = `flex-shrink-0 w-8 h-8 ${isUser ? 'bg-emerald-500' : 'bg-blue-600'} rounded-full flex items-center justify-center`;
+            avatar.innerHTML = isUser ? '<span class="text-white text-xs font-bold">U</span>' : '<span class="text-white text-xs font-bold">AI</span>';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = `bg-white rounded-lg p-3 shadow-sm max-w-[80%] ${isUser ? 'bg-emerald-50 border border-emerald-100' : 'border border-gray-200'}`;
+            // Use parseMarkdown instead of just escapeHtml
+            messageContent.innerHTML = `<div class="text-gray-800 text-sm whitespace-pre-wrap">${parseMarkdown(message)}</div>`;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function sendChatbotSuggestion(message) {
+            if (chatbotInput) {
+                chatbotInput.value = message;
+                if (chatbotForm) {
+                    chatbotForm.dispatchEvent(new Event('submit'));
+                }
+            }
+        }
+        
+        function updateSuggestions(suggestions) {
+            const suggestionsContainer = document.getElementById('suggestions-container');
+            if (!suggestionsContainer) return;
+            
+            // Clear existing suggestions
+            suggestionsContainer.innerHTML = '';
+            
+            // Color variations for visual variety
+            const colors = [
+                { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', hover: 'hover:bg-blue-100' },
+                { bg: 'bg-cyan-50', text: 'text-cyan-700', border: 'border-cyan-200', hover: 'hover:bg-cyan-100' },
+                { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', hover: 'hover:bg-emerald-100' }
+            ];
+            
+            // Add new suggestions
+            suggestions.forEach((suggestion, index) => {
+                const color = colors[index % colors.length];
+                const button = document.createElement('button');
+                button.onclick = () => sendChatbotSuggestion(suggestion);
+                button.className = `px-2 py-1 ${color.bg} ${color.text} rounded-lg ${color.hover} transition-colors cursor-pointer text-xs border ${color.border}`;
+                button.textContent = suggestion;
+                suggestionsContainer.appendChild(button);
+            });
+        }
+        
+        if (chatbotForm && chatbotInput) {
+            chatbotForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const userMessage = chatbotInput.value.trim();
+                if (!userMessage) return;
+                
+                // Add user message to chat
+                addChatbotMessage(userMessage, true);
+                chatbotInput.value = '';
+                
+                // Show loading indicator
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'flex items-start space-x-3';
+                loadingDiv.id = 'chatbot-loading-indicator';
+                loadingDiv.innerHTML = `
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">AI</span>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 shadow-sm border border-gray-200">
+                        <p class="text-gray-600 text-sm">Thinking...</p>
+                    </div>
+                `;
+                chatbotMessages.appendChild(loadingDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                
+                try {
+                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    // Get the chatbot API URL from the page
+                    const chatbotApiUrl = document.getElementById('chatbot-widget').dataset.apiUrl || '/api/chatbot/';
+                    const response = await fetch(chatbotApiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({
+                            message: userMessage,
+                            session_id: chatbotSessionId
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Remove loading indicator
+                    const loadingIndicator = document.getElementById('chatbot-loading-indicator');
+                    if (loadingIndicator) {
+                        loadingIndicator.remove();
+                    }
+                    
+                    if (data.response) {
+                        addChatbotMessage(data.response);
+                        // Update suggestions if provided
+                        if (data.suggestions && Array.isArray(data.suggestions) && data.suggestions.length > 0) {
+                            updateSuggestions(data.suggestions);
+                        } else {
+                            // Fallback to default suggestions if not provided
+                            updateSuggestions([
+                                "What tests do you have?",
+                                "Find labs near me",
+                                "What is the price of blood test?"
+                            ]);
+                        }
+                    } else {
+                        addChatbotMessage('Sorry, I encountered an error. Please try again.');
+                    }
+                } catch (error) {
+                    const loadingIndicator = document.getElementById('chatbot-loading-indicator');
+                    if (loadingIndicator) {
+                        loadingIndicator.remove();
+                    }
+                    addChatbotMessage('Sorry, I encountered an error. Please try again.');
+                    console.error('Error:', error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

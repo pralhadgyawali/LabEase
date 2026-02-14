@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section - Clean & Spacious Design -->
+<div class="relative w-full min-h-[85vh] flex flex-col items-center justify-center overflow-hidden">
+    <!-- Simplified Background -->
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC-UuvMUuBRvv16aYPMjhUdUSOwC_erBoenPGiqRqVzO0GpVUPFyZse1vYJM1iRfHxBslTaj40SQ2Knup4LVocXQ3xipRcphinHMNJQhby7uZrAKRjq6j1LG7oddxtPNxHwsEWPBsCqWWNCvMO9Y6mtXAdzlebCF4zUckpwf2o6ezMhh2OtyFC-uVtRykrsQ9QnnedqtDSA03x0ECtwdwKfmf8zKUL3ltZkwm0h6wGMlC7SHfv0HJh-SSQTe-DWu15nLi4ovDK4fyk");'></div>
+    
+    <!-- Single Clean Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-900/70 via-blue-800/60 to-blue-900/70"></div>
+    
+    <!-- Content - Centered with Better Spacing -->
+    <div class="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+        <!-- Main Heading Section -->
+        <div class="text-center mb-12 lg:mb-16">
+            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white mb-6 leading-tight tracking-tight">
+                Find the Right
+                <span class="block mt-3 bg-gradient-to-r from-cyan-300 via-blue-300 to-teal-300 bg-clip-text text-transparent">
+                    Medical Test
+                </span>
+            </h1>
+            <p class="text-xl sm:text-2xl text-white/90 max-w-2xl mx-auto font-medium leading-relaxed">
+                Search for medical tests and find nearby labs with ease
+            </p>
+        </div>
+
+        <!-- Search Form - Prominent & Clean -->
+        <div class="max-w-3xl mx-auto mb-8 relative">
+            <form action="{% url 'search_labs' %}" method="get" class="relative">
+                <div class="relative flex flex-col sm:flex-row gap-0 bg-white rounded-2xl shadow-2xl overflow-visible">
+                    <div class="flex-1 flex items-center bg-white px-5 sm:px-6 relative">
+                        <i class="fas fa-search text-gray-400 text-xl mr-4"></i>
+                        <input 
+                            type="text" 
+                            name="query"
+                            id="testSearchInput"
+                            placeholder="Search for a test (e.g., Blood Test, Glucose Test)" 
+                            class="flex-1 py-5 sm:py-6 text-gray-900 placeholder-gray-400 focus:outline-none text-lg font-medium"
+                            value=""
+                            autocomplete="off"
+                            required>
+                    </div>
+                    <button 
+                        type="submit"
+                        class="px-8 sm:px-10 py-5 sm:py-6 text-white font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
+                        <span>Search</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <!-- Autocomplete Dropdown - Positioned absolutely outside -->
+                <div id="autocompleteResults" class="absolute top-full left-0 right-0 bg-white border border-gray-200 border-t-0 shadow-lg rounded-b-2xl hidden max-h-96 overflow-y-auto z-50 mt-0"></div>
+            </form>
+        </div>
+
+        <!-- Popular Tags - Dynamic from Database -->
+        <div class="flex flex-wrap justify-center items-center gap-3 max-w-2xl mx-auto">
+            {% if popular_tests %}
+                <span class="text-white/80 text-sm font-medium">Popular:</span>
+                {% for test in popular_tests|slice:":3" %}
+                <a href="{% url 'search_labs' %}?query={{ test.name|urlencode }}" 
+                   class="px-4 py-2 bg-white/15 backdrop-blur-sm text-white rounded-full text-sm font-medium hover:bg-white/25 transition-all duration-200 border border-white/20">
+                    {{ test.name }}
+                </a>
+                {% endfor %}
+            {% else %}
+                <span class="text-white/80 text-sm font-medium">Browse our medical tests →</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Elegant Wave Transition -->
+    <div class="absolute bottom-0 left-0 right-0 z-0">
+        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto" preserveAspectRatio="none">
+            <path d="M0,80 L0,60 C180,50 360,45 540,50 C720,55 900,65 1080,70 C1260,75 1380,70 1440,65 L1440,80 Z" fill="white"/>
+        </svg>
+    </div>
+</div>
+
+<!-- Feature Cards Section - Modern & Clean Design -->
+<div class="bg-white py-20 lg:py-24 relative -mt-1">
+    <!-- Subtle top gradient fade -->
+    <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-white/80 to-transparent pointer-events-none"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16 lg:mb-20">
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4">Why Choose LabEase?</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Experience healthcare made simple, fast, and reliable</p>
+            </div>
+            
+            <!-- Feature Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+                <!-- Card 1: Easy Search -->
+                <div class="group relative bg-white rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100">
+                    <!-- Icon Container -->
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-blue-100 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                            <i class="fas fa-search text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center group-hover:text-blue-600 transition-colors">Easy Search</h3>
+                    <p class="text-gray-600 text-base leading-relaxed text-center">Find tests and labs instantly with our powerful search engine.</p>
+                </div>
+                
+                <!-- Card 2: AI Powered -->
+                <div class="group relative bg-white rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100">
+                    <!-- Icon Container -->
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-cyan-100 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative w-20 h-20 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                            <i class="fas fa-robot text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center group-hover:text-cyan-600 transition-colors">AI Powered</h3>
+                    <p class="text-gray-600 text-base leading-relaxed text-center">Get smart recommendations based on your symptoms.</p>
+                </div>
+                
+                <!-- Card 3: Trusted Labs -->
+                <div class="group relative bg-white rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100">
+                    <!-- Icon Container -->
+                    <div class="relative mb-6">
+                        <div class="absolute inset-0 bg-emerald-100 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative w-20 h-20 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                            <i class="fas fa-shield-alt text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center group-hover:text-emerald-600 transition-colors">Trusted Labs</h3>
+                    <p class="text-gray-600 text-base leading-relaxed text-center">Verified medical facilities you can trust.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Section -->
+<div class="bg-white py-16 border-b border-gray-200">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black mb-2" style="color: #2563EB;">20+</div>
+                    <p class="text-gray-600 font-semibold">Medical Tests</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black mb-2" style="color: #0891B2;">5+</div>
+                    <p class="text-gray-600 font-semibold">Partner Labs</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black mb-2" style="color: #10B981;">100%</div>
+                    <p class="text-gray-600 font-semibold">Verified</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-black mb-2" style="color: #374151;">24/7</div>
+                    <p class="text-gray-600 font-semibold">AI Support</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Key Benefits Section -->
+<div class="bg-white py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4">Key Benefits</h2>
+                <p class="text-gray-600 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
+                    We make finding and booking medical tests simple, fast, and reliable.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-100 hover:shadow-2xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-3 group">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform" style="background-color: #2563EB;">
+                        <i class="fas fa-clock text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 mb-4">Save Time</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed">Find the right test and lab in seconds, not hours. Our intelligent search helps you get results instantly.</p>
+                </div>
+                
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-100 hover:shadow-2xl hover:border-teal-200 transition-all duration-300 transform hover:-translate-y-3 group">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform" style="background-color: #0891B2;">
+                        <i class="fas fa-dollar-sign text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 mb-4">Compare Prices</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed">See prices from multiple labs to make informed decisions. Get the best value for your healthcare needs.</p>
+                </div>
+                
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-100 hover:shadow-2xl hover:border-emerald-200 transition-all duration-300 transform hover:-translate-y-3 group md:col-span-2 lg:col-span-1">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform" style="background-color: #10B981;">
+                        <i class="fas fa-shield-check text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 mb-4">Trusted & Secure</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed">All our partner labs are verified and certified. Your data is protected with enterprise-grade security.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Tests Section -->
+<div class="bg-gradient-to-b from-gray-50 to-white py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">Popular Tests</h2>
+                <p class="text-gray-600 text-xl">Most commonly searched medical tests</p>
+            </div>
+            
+            {% if popular_tests %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {% for test in popular_tests %}
+                <a href="{% url 'search_labs' %}?query={{ test.name|urlencode }}" 
+                   class="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100 hover:shadow-2xl hover:border-blue-300 transition-all duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform" style="background-color: #2563EB;">
+                        <i class="fas fa-vial text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{{ test.name|truncatewords:4 }}</h3>
+                    {% if test.price %}
+                    <p class="text-gray-600 font-semibold">Rs. {{ test.price }}</p>
+                    {% endif %}
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-12">
+                <p class="text-gray-600 text-lg">No tests available yet. Check back soon!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="bg-white py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">How It Works</h2>
+                <p class="text-gray-600 text-xl max-w-2xl mx-auto">Get your medical test booked in three simple steps</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                <div class="text-center relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-xl z-10" style="background-color: #2563EB;">1</div>
+                    <div class="bg-white rounded-3xl p-8 pt-12 shadow-xl border-2 border-gray-100 hover:shadow-2xl transition-all">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background-color: #2563EB;">
+                            <i class="fas fa-search text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Search</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed">Enter the test name you're looking for in our search bar</p>
+                    </div>
+                </div>
+                
+                <div class="text-center relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-xl z-10" style="background-color: #0891B2;">2</div>
+                    <div class="bg-white rounded-3xl p-8 pt-12 shadow-xl border-2 border-gray-100 hover:shadow-2xl transition-all">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background-color: #0891B2;">
+                            <i class="fas fa-list text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Compare</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed">View results from multiple labs with prices and locations</p>
+                    </div>
+                </div>
+                
+                <div class="text-center relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-xl z-10" style="background-color: #10B981;">3</div>
+                    <div class="bg-white rounded-3xl p-8 pt-12 shadow-xl border-2 border-gray-100 hover:shadow-2xl transition-all">
+                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background-color: #10B981;">
+                            <i class="fas fa-calendar-check text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Book</h3>
+                        <p class="text-gray-600 text-lg leading-relaxed">Click 'Book Test' to send your booking request to the lab</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-gradient-to-r from-blue-600 to-blue-700 py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-6">Ready to Find Your Test?</h2>
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">Start searching now and get connected with trusted labs in your area</p>
+            <a href="{% url 'index' %}" onclick="document.querySelector('input[name=query]').focus(); return false;" class="inline-flex items-center px-10 py-5 bg-white text-blue-600 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-2xl">
+                <i class="fas fa-search mr-3 text-xl"></i>Start Searching
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Smooth fade-in animation for hero content */
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .hero-content {
+        animation: fade-in 0.8s ease-out;
+    }
+</style>
+
+<script>
+// Test Autocomplete Search
+const testSearchInput = document.getElementById('testSearchInput');
+const autocompleteResults = document.getElementById('autocompleteResults');
+
+// Hide autocomplete when clicking outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#testSearchInput') && !e.target.closest('#autocompleteResults')) {
+        autocompleteResults.classList.add('hidden');
+    }
+});
+
+// Handle input and show suggestions
+testSearchInput.addEventListener('input', debounce(async (e) => {
+    const query = e.target.value.trim();
+    
+    console.log('Search query:', query); // Debug
+    
+    if (query.length < 1) {
+        autocompleteResults.classList.add('hidden');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/search-tests/?q=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        
+        console.log('API Response:', data); // Debug
+        
+        if (data.results && data.results.length > 0) {
+            autocompleteResults.innerHTML = data.results.map(test => `
+                <div class="px-4 py-3 border-b border-gray-100 hover:bg-blue-50 cursor-pointer transition-colors text-gray-900 font-medium" 
+                     onclick="selectTest('${test.name}', event)">
+                    ${test.name}
+                </div>
+            `).join('');
+            autocompleteResults.classList.remove('hidden');
+        } else {
+            autocompleteResults.innerHTML = '<div class="px-4 py-3 text-gray-500 text-center text-sm">No tests found</div>';
+            autocompleteResults.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        autocompleteResults.innerHTML = '<div class="px-4 py-3 text-red-500 text-center text-sm">Error loading results</div>';
+    }
+}, 300));
+
+// Debounce function to limit API calls
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Select test from autocomplete
+function selectTest(testName, event) {
+    if (event) event.stopPropagation();
+    testSearchInput.value = testName;
+    autocompleteResults.classList.add('hidden');
+}
+
+// Allow Enter key to search
+testSearchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        testSearchInput.form.submit();
+    }
+});
+</script>
+{% endblock %}
